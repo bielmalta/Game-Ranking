@@ -2,9 +2,10 @@
 # Descrição
 Página de avaliação de games e críticas.
 # Colaboradores
-Hélio de Moraes Rêgo Neto
+Arthur de Almeida Oliveira
+Arthur Filipe Silva dos Reis
+Gabriel Gondim Malta
 Gabriel Mendes Cavalcanti
 Guilherme Silva Guimarães
+Hélio de Moraes Rêgo Neto
 Matheus Assis de Souza Jácome
-Gabriel Gondim Malta
-Arthur de Almeida Oliveira
