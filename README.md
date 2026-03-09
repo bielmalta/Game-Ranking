@@ -16,3 +16,6 @@ link do figma: https://www.figma.com/board/fm0wB9xITXtjeqBeBZYJjj/Sem-t%C3%ADtul
 Docs das Histórias: https://docs.google.com/document/d/1koSvhLiN-m2yipQsbQeLWTG0vbIIWovv3-FDx5r-KnA/edit?tab=t.0
 <img width="1920" height="949" alt="image" src="https://github.com/user-attachments/assets/b2703ad8-e6c4-44ca-a522-449288e5cdff" />
 
+link do screencast:
+https://www.youtube.com/watch?v=V_xk95SDth4
+
