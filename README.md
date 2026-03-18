@@ -20,4 +20,3 @@ https://drive.google.com/drive/folders/187pxLEDKzr8ZbCQJDWKPiKosjQO6r-wn?usp=sha
 
 link do screencast:
 https://www.youtube.com/watch?v=V_xk95SDth4
-
