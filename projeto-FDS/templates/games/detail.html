@@ -1,0 +1,220 @@
+{% extends 'base.html' %}
+{% block title %}{{ game.title }}{% endblock %}
+
+{% block extra_css %}
+<style>
+  .detail-hero {
+    display: flex;
+    gap: 2rem;
+    padding: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .detail-cover {
+    width: 220px;
+    min-width: 220px;
+    border-radius: 10px;
+    overflow: hidden;
+    border: 1px solid #2a2a3a;
+  }
+
+  .detail-cover img { width: 100%; display: block; }
+
+  .detail-info { flex: 1; }
+  .detail-title { font-size: 1.8rem; font-weight: 700; color: #e0e0f0; margin-bottom: 0.5rem; }
+  .detail-meta  { color: #6060a0; font-size: 0.85rem; margin-bottom: 1rem; }
+  .detail-desc  { line-height: 1.7; color: #9090b0; margin-bottom: 1.5rem; }
+
+  /* Estrelas */
+  .stars-form { display: flex; gap: 0.3rem; margin-bottom: 1.5rem; }
+
+  .star-btn {
+    background: none;
+    border: none;
+    font-size: 1.6rem;
+    cursor: pointer;
+    color: #3a3a5a;
+    transition: color 0.15s, transform 0.1s;
+    padding: 0;
+    line-height: 1;
+  }
+
+  .star-btn:hover,
+  .star-btn.active { color: #f5c518; }
+
+  .star-btn:hover ~ .star-btn { color: #3a3a5a !important; }
+
+  .stars-row:hover .star-btn { color: #f5c518; }
+  .stars-row .star-btn:hover ~ .star-btn { color: #3a3a5a; }
+
+  .rating-summary {
+    font-size: 0.85rem;
+    color: #6060a0;
+    margin-bottom: 1rem;
+  }
+
+  /* Seção de comentários */
+  .section {
+    max-width: 1000px;
+    margin: 0 auto 2rem;
+    padding: 0 2rem;
+  }
+
+  .section-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #c0c0e0;
+    margin-bottom: 1rem;
+    border-bottom: 1px solid #2a2a3a;
+    padding-bottom: 0.5rem;
+  }
+
+  textarea {
+    width: 100%;
+    background: #1a1a26;
+    border: 1px solid #2a2a3a;
+    border-radius: 8px;
+    color: #c7c7d4;
+    padding: 0.8rem;
+    font-size: 0.95rem;
+    resize: vertical;
+    min-height: 100px;
+    outline: none;
+    font-family: inherit;
+  }
+
+  textarea:focus { border-color: #7b8cde; }
+
+  .comment-card {
+    background: #16161e;
+    border: 1px solid #2a2a3a;
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .comment-user { font-weight: 600; color: #9090c0; font-size: 0.85rem; margin-bottom: 0.4rem; }
+  .comment-body { color: #b0b0c8; line-height: 1.6; }
+  .comment-date { font-size: 0.75rem; color: #4040a0; margin-top: 0.4rem; }
+
+  .login-notice {
+    background: #1a1a26;
+    border: 1px solid #2a2a3a;
+    border-radius: 8px;
+    padding: 1rem;
+    color: #6060a0;
+    font-size: 0.9rem;
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+
+<!-- Hero -->
+<div class="detail-hero">
+  <div class="detail-cover">
+    {% if game.cover %}
+      <img src="{{ game.cover.url }}" alt="{{ game.title }}">
+    {% else %}
+      <div style="aspect-ratio:3/4;background:#1e1e2e;display:flex;align-items:center;justify-content:center;font-size:4rem;">🎮</div>
+    {% endif %}
+  </div>
+
+  <div class="detail-info">
+    <div class="detail-title">{{ game.title }}</div>
+    <div class="detail-meta">
+      {% if game.release_year %}{{ game.release_year }}{% endif %}
+      {% for genre in game.genres.all %} · {{ genre }}{% endfor %}
+    </div>
+    <div class="detail-desc">{{ game.description|default:"Sem descrição disponível." }}</div>
+
+    <!-- Avaliação média -->
+    <div class="rating-summary">
+      {% if game.average_rating %}
+        ⭐ {{ game.average_rating }} / 5 &nbsp;·&nbsp; {{ game.ratings.count }} avaliação(ões)
+      {% else %}
+        Nenhuma avaliação ainda.
+      {% endif %}
+    </div>
+
+    <!-- Sistema de estrelas (História 2) -->
+    {% if user.is_authenticated %}
+      <form method="post" action="{% url 'rate_game' game.pk %}">
+        {% csrf_token %}
+        <div class="stars-row stars-form" id="stars-row">
+          {% for i in star_range %}
+            <button type="submit" name="score" value="{{ i }}" class="star-btn {% if user_rating and user_rating.score >= i %}active{% endif %}">★</button>
+          {% endfor %}
+        </div>
+        <div style="font-size:0.8rem;color:#4040a0;margin-top:-0.8rem;margin-bottom:1rem;">
+          {% if user_rating %}Sua avaliação: {{ user_rating.score }}★ — clique para alterar{% else %}Clique para avaliar{% endif %}
+        </div>
+      </form>
+    {% else %}
+      <div style="font-size:0.85rem;color:#4040a0;margin-bottom:1rem;">
+        <a href="{% url 'login' %}?next={{ request.path }}">Entre</a> para avaliar este jogo.
+      </div>
+    {% endif %}
+
+    {% if game.official_url %}
+      <a href="{{ game.official_url }}" target="_blank" class="btn btn-ghost">🌐 Site oficial</a>
+    {% endif %}
+  </div>
+</div>
+
+<!-- Trailer -->
+
+{% if game.trailer_url %}
+<div class="section">
+  <div class="section-title">Trailer</div>
+  <div style="aspect-ratio:16/9;border-radius:10px;overflow:hidden;border:1px solid #2a2a3a;">
+    <iframe
+      width="100%"
+      height="100%"
+      src="{{ game.trailer_url }}?origin=http://127.0.0.1:8000"
+      frameborder="0"
+      allowfullscreen
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
+    </iframe>
+  </div>
+</div>
+{% endif %}
+
+<!-- Comentários (História 3) -->
+<div class="section">
+  <div class="section-title">Comentários</div>
+
+  {% if user.is_authenticated %}
+    <form method="post" action="{% url 'save_comment' game.pk %}" style="margin-bottom:1.5rem;">
+      {% csrf_token %}
+      <textarea name="body" placeholder="Escreva sua opinião sobre o jogo...">{{ user_comment.body|default:'' }}</textarea>
+      <div style="margin-top:0.6rem;display:flex;align-items:center;gap:1rem;">
+        <button type="submit" class="btn btn-primary">
+          {% if user_comment %}Atualizar comentário{% else %}Enviar{% endif %}
+        </button>
+        {% if user_comment %}
+          <span style="font-size:0.8rem;color:#4040a0;">Editando seu comentário existente.</span>
+        {% endif %}
+      </div>
+    </form>
+  {% else %}
+    <div class="login-notice" style="margin-bottom:1.5rem;">
+      É necessário estar logado para comentar. 
+      <a href="{% url 'login' %}?next={{ request.path }}">Entrar</a> · 
+      <a href="{% url 'register' %}">Cadastrar</a>
+    </div>
+  {% endif %}
+
+  {% for comment in comments %}
+    <div class="comment-card">
+      <div class="comment-user">{{ comment.user.username }}</div>
+      <div class="comment-body">{{ comment.body }}</div>
+      <div class="comment-date">{{ comment.created_at|date:"d/m/Y H:i" }}</div>
+    </div>
+  {% empty %}
+    <div class="empty-msg" style="padding:2rem 0;">Nenhum comentário ainda. Seja o primeiro!</div>
+  {% endfor %}
+</div>
+
+{% endblock %}

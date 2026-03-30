@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Pesquisar Jogos{% endblock %}
+
+{% block content %}
+<form method="get" action="{% url 'game_search' %}">
+  <div class="search-bar">
+    <input type="text" name="q" value="{{ query }}" placeholder="Pesquisar jogos..." autofocus>
+    <button type="submit" class="btn btn-primary">Buscar</button>
+  </div>
+</form>
+
+<div class="container">
+  {% if searched %}
+    {% if games %}
+      <p style="color:#6060a0; margin-bottom:1rem; font-size:0.9rem;">
+        {{ games|length }} resultado(s) para "<strong style="color:#9090c0;">{{ query }}</strong>"
+      </p>
+      <div class="games-grid">
+        {% for game in games %}
+          <a href="{% url 'game_detail' game.pk %}" class="game-card">
+            {% if game.cover %}
+              <img src="{{ game.cover.url }}" alt="{{ game.title }}">
+            {% else %}
+              <div style="width:100%;aspect-ratio:3/4;background:#1e1e2e;display:flex;align-items:center;justify-content:center;color:#3a3a5a;font-size:2rem;">🎮</div>
+            {% endif %}
+            <div class="game-card-body">
+              <div class="game-card-title">{{ game.title }}</div>
+              <div class="game-card-meta">
+                {% if game.release_year %}{{ game.release_year }}{% endif %}
+                {% if game.average_rating %}· ⭐ {{ game.average_rating }}{% endif %}
+              </div>
+            </div>
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="empty-msg">Nenhum jogo encontrado para "{{ query }}".</div>
+    {% endif %}
+  {% else %}
+    <div class="empty-msg" style="padding-top:4rem;">
+      <div style="font-size:3rem;margin-bottom:1rem;">🎮</div>
+      Digite o nome de um jogo para começar.
+    </div>
+  {% endif %}
+</div>
+{% endblock %}

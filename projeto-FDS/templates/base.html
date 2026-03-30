@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}Game_Ranking{% endblock %}</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: #0f0f13;
+      color: #c7c7d4;
+      min-height: 100vh;
+    }
+
+    a { color: #7b8cde; text-decoration: none; }
+    a:hover { color: #a0aeff; }
+
+    /* Navbar */
+    nav {
+      background: #16161e;
+      border-bottom: 1px solid #2a2a3a;
+      padding: 0 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 56px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .nav-brand {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #7b8cde;
+      letter-spacing: 1px;
+    }
+
+    .nav-links { display: flex; align-items: center; gap: 1.2rem; font-size: 0.9rem; }
+
+    .nav-user {
+      color: #9090b0;
+      font-size: 0.85rem;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      border: none;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .btn-primary { background: #7b8cde; color: #fff; }
+    .btn-primary:hover { background: #6070c8; color: #fff; }
+    .btn-ghost { background: transparent; border: 1px solid #3a3a52; color: #9090b0; }
+    .btn-ghost:hover { border-color: #7b8cde; color: #7b8cde; }
+
+    /* Search bar */
+    .search-bar {
+      display: flex;
+      gap: 0.5rem;
+      padding: 1.5rem 2rem;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .search-bar input {
+      flex: 1;
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      border: 1px solid #2a2a3a;
+      background: #1a1a26;
+      color: #c7c7d4;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    .search-bar input:focus { border-color: #7b8cde; }
+
+    /* Container */
+    .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem; }
+
+    /* Cards de jogos */
+    .games-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.2rem;
+    }
+
+    .game-card {
+      background: #16161e;
+      border: 1px solid #2a2a3a;
+      border-radius: 10px;
+      overflow: hidden;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .game-card:hover { border-color: #7b8cde; transform: translateY(-2px); }
+
+    .game-card img {
+      width: 100%;
+      aspect-ratio: 3/4;
+      object-fit: cover;
+      background: #1e1e2e;
+    }
+
+    .game-card-body { padding: 0.8rem; }
+    .game-card-title { font-weight: 600; font-size: 0.95rem; color: #e0e0f0; }
+    .game-card-meta  { font-size: 0.78rem; color: #6060a0; margin-top: 0.3rem; }
+
+    /* Mensagem vazia */
+    .empty-msg {
+      text-align: center;
+      padding: 3rem 0;
+      color: #5050a0;
+      font-size: 1rem;
+    }
+
+    /* Flash messages */
+    .messages { list-style: none; padding: 0.8rem 2rem; }
+    .messages li {
+      background: #1e1e3a;
+      border-left: 3px solid #7b8cde;
+      padding: 0.6rem 1rem;
+      border-radius: 4px;
+      margin-bottom: 0.5rem;
+      font-size: 0.9rem;
+    }
+  </style>
+  {% block extra_css %}{% endblock %}
+</head>
+<body>
+
+<nav>
+  <a class="nav-brand" href="{% url 'game_search' %}">🎮 Game_Ranking</a>
+  <div class="nav-links">
+    {% if user.is_authenticated %}
+      <span class="nav-user">Olá, <strong>{{ user.username }}</strong></span>
+      <a href="{% url 'profile' %}">Perfil</a>
+      <a href="{% url 'logout' %}" class="btn btn-ghost">Sair</a>
+    {% else %}
+      <a href="{% url 'login' %}">Entrar</a>
+      <a href="{% url 'register' %}" class="btn btn-primary">Cadastrar</a>
+    {% endif %}
+  </div>
+</nav>
+
+{% if messages %}
+  <ul class="messages">
+    {% for msg in messages %}
+      <li>{{ msg }}</li>
+    {% endfor %}
+  </ul>
+{% endif %}
+
+{% block content %}{% endblock %}
+
+</body>
+</html>
