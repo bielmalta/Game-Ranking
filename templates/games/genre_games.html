@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% block title %}{{ genre.name }} | Game Ranking{% endblock %}
+
+{% block content %}
+<section class="container">
+  <div style="margin-bottom:1.5rem;">
+    <h1 style="font-size:2rem;color:#f5f8ff;margin-bottom:0.35rem;">{{ genre.name }}</h1>
+    <p style="color:#9aa8cf;line-height:1.7;">Todos os jogos cadastrados neste gênero.</p>
+  </div>
+
+  {% if games %}
+    <div class="games-grid">
+      {% for game in games %}
+        <a href="{% url 'game_detail' game.pk %}" class="game-card">
+          {% if game.cover_source %}
+            <img src="{{ game.cover_source }}" alt="{{ game.title }}">
+          {% else %}
+            <div style="aspect-ratio:3/4;background:#101622;display:grid;place-items:center;color:#5f6b8b;font-weight:700;">Sem capa</div>
+          {% endif %}
+          <div class="game-card-body">
+            <div class="game-card-title">{{ game.title }}</div>
+            <div class="game-card-meta">
+              {% if game.release_year %}{{ game.release_year }}{% endif %}
+              {% if game.average_rating %} • Nota média: {{ game.average_rating }}{% endif %}
+            </div>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-msg">Ainda não há jogos cadastrados neste gênero.</div>
+  {% endif %}
+</section>
+{% endblock %}

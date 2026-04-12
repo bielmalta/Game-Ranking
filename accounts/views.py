@@ -8,25 +8,25 @@ from .forms import LoginForm, RegisterForm
 
 def register_view(request):
     if request.user.is_authenticated:
-        return redirect('game_search')
+        return redirect('home')
 
     form = RegisterForm(request.POST or None)
 
     if request.method == 'POST' and form.is_valid():
         user = form.save()
         login(request, user)
-        messages.success(request, 'Conta criada com sucesso. Voce ja esta logado.')
-        return redirect('game_search')
+        messages.success(request, 'Conta criada com sucesso. Você já está logado.')
+        return redirect('home')
 
     return render(request, 'accounts/register.html', {'form': form})
 
 
 def login_view(request):
     if request.user.is_authenticated:
-        return redirect('game_search')
+        return redirect('home')
 
     form = LoginForm(request, data=request.POST or None)
-    next_url = request.GET.get('next') or request.POST.get('next') or 'game_search'
+    next_url = request.GET.get('next') or request.POST.get('next') or 'home'
 
     if request.method == 'POST' and form.is_valid():
         login(request, form.get_user())
@@ -41,14 +41,14 @@ def login_view(request):
 
 def logout_view(request):
     logout(request)
-    messages.success(request, 'Voce saiu da sua conta.')
+    messages.success(request, 'Você saiu da sua conta.')
     return redirect('login')
 
 
 @login_required
 def profile_view(request):
-    ratings = request.user.ratings.select_related('game').order_by('-game__title')
-    comments = request.user.comments.select_related('game').order_by('-created_at')
+    ratings = request.user.ratings.select_related('game').order_by('-updated_at')
+    comments = request.user.comments.select_related('game').order_by('-updated_at')
     return render(request, 'accounts/profile.html', {
         'ratings': ratings,
         'comments': comments,

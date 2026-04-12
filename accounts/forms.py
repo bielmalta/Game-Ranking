@@ -11,18 +11,18 @@ INPUT_STYLE = (
 
 
 class LoginForm(AuthenticationForm):
-    username = forms.CharField(label='Nome de usuario')
+    username = forms.CharField(label='Nome de usuário')
     password = forms.CharField(label='Senha', widget=forms.PasswordInput)
 
     error_messages = {
-        'invalid_login': 'Usuario ou senha incorretos.',
-        'inactive': 'Esta conta esta inativa.',
+        'invalid_login': 'Usuário ou senha incorretos.',
+        'inactive': 'Esta conta está inativa.',
     }
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({
-            'placeholder': 'Digite seu nome de usuario',
+            'placeholder': 'Digite seu nome de usuário',
             'style': INPUT_STYLE,
         })
         self.fields['password'].widget.attrs.update({
@@ -41,16 +41,16 @@ class RegisterForm(UserCreationForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         placeholders = {
-            'username': 'Escolha um nome de usuario',
-            'email': 'Digite seu email',
+            'username': 'Escolha um nome de usuário',
+            'email': 'Digite seu e-mail',
             'password1': 'Crie uma senha',
             'password2': 'Confirme a senha',
         }
         labels = {
-            'username': 'Nome de usuario',
-            'email': 'Email',
+            'username': 'Nome de usuário',
+            'email': 'E-mail',
             'password1': 'Senha',
-            'password2': 'Confirmacao de senha',
+            'password2': 'Confirmação de senha',
         }
 
         for name, field in self.fields.items():

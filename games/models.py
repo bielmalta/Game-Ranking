@@ -8,19 +8,19 @@ class Genre(models.Model):
         return self.name
 
     class Meta:
-        verbose_name = 'GÃªnero'
-        verbose_name_plural = 'GÃªneros'
+        verbose_name = 'Gênero'
+        verbose_name_plural = 'Gêneros'
 
 
 class Game(models.Model):
-    title = models.CharField(max_length=200, verbose_name='TÃ­tulo')
-    description = models.TextField(blank=True, verbose_name='DescriÃ§Ã£o')
-    release_year = models.PositiveIntegerField(null=True, blank=True, verbose_name='Ano de lanÃ§amento')
+    title = models.CharField(max_length=200, verbose_name='Título')
+    description = models.TextField(blank=True, verbose_name='Descrição')
+    release_year = models.PositiveIntegerField(null=True, blank=True, verbose_name='Ano de lançamento')
     cover = models.ImageField(upload_to='covers/', blank=True, verbose_name='Capa')
     cover_url = models.URLField(blank=True, verbose_name='Link da capa')
     trailer_url = models.URLField(blank=True, verbose_name='URL do trailer (YouTube embed)')
     official_url = models.URLField(blank=True, verbose_name='Site oficial')
-    genres = models.ManyToManyField(Genre, blank=True, verbose_name='GÃªneros')
+    genres = models.ManyToManyField(Genre, blank=True, verbose_name='Gêneros')
 
     def __str__(self):
         return self.title

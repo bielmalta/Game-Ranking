@@ -3,134 +3,230 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>{% block title %}Game_Ranking{% endblock %}</title>
+  <title>{% block title %}Game Ranking{% endblock %}</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+    :root {
+      --bg: #0f1117;
+      --bg-soft: #151925;
+      --panel: #181d2a;
+      --line: #2d354a;
+      --text: #dbe3ff;
+      --muted: #93a0c7;
+      --accent: #6dc2ff;
+      --accent-strong: #4097d9;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
-      background: #0f0f13;
-      color: #c7c7d4;
+      background:
+        radial-gradient(circle at top, rgba(109, 194, 255, 0.12), transparent 30%),
+        linear-gradient(180deg, #0b0f16 0%, var(--bg) 100%);
+      color: var(--text);
       min-height: 100vh;
     }
 
-    a { color: #7b8cde; text-decoration: none; }
-    a:hover { color: #a0aeff; }
+    a { color: var(--accent); text-decoration: none; }
+    a:hover { color: #9fd8ff; }
 
-    /* Navbar */
     nav {
-      background: #16161e;
-      border-bottom: 1px solid #2a2a3a;
+      background: rgba(15, 17, 23, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
       padding: 0 2rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
-      height: 56px;
+      height: 64px;
       position: sticky;
       top: 0;
       z-index: 100;
     }
 
+    .nav-left,
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
     .nav-brand {
       font-size: 1.2rem;
       font-weight: 700;
-      color: #7b8cde;
-      letter-spacing: 1px;
+      color: #eef6ff;
+      letter-spacing: 0.04em;
     }
 
-    .nav-links { display: flex; align-items: center; gap: 1.2rem; font-size: 0.9rem; }
+    .nav-link {
+      color: var(--muted);
+      font-size: 0.92rem;
+    }
+
+    .nav-link:hover {
+      color: var(--text);
+    }
 
     .nav-user {
-      color: #9090b0;
-      font-size: 0.85rem;
+      color: var(--muted);
+      font-size: 0.88rem;
     }
 
     .btn {
-      display: inline-block;
-      padding: 0.4rem 1rem;
-      border-radius: 6px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.45rem;
+      padding: 0.55rem 1rem;
+      border-radius: 999px;
+      font-size: 0.88rem;
+      font-weight: 700;
       border: none;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: transform 0.18s, background 0.18s, border-color 0.18s;
     }
 
-    .btn-primary { background: #7b8cde; color: #fff; }
-    .btn-primary:hover { background: #6070c8; color: #fff; }
-    .btn-ghost { background: transparent; border: 1px solid #3a3a52; color: #9090b0; }
-    .btn-ghost:hover { border-color: #7b8cde; color: #7b8cde; }
+    .btn:hover {
+      transform: translateY(-1px);
+    }
 
-    /* Search bar */
+    .btn-primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
+      color: #08111b;
+    }
+
+    .btn-primary:hover {
+      color: #08111b;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      border: 1px solid var(--line);
+      color: var(--muted);
+    }
+
+    .btn-ghost:hover {
+      border-color: var(--accent);
+      color: var(--accent);
+    }
+
     .search-bar {
       display: flex;
-      gap: 0.5rem;
-      padding: 1.5rem 2rem;
-      max-width: 700px;
-      margin: 0 auto;
+      gap: 0.75rem;
+      width: 100%;
     }
 
     .search-bar input {
       flex: 1;
-      padding: 0.6rem 1rem;
-      border-radius: 8px;
-      border: 1px solid #2a2a3a;
-      background: #1a1a26;
-      color: #c7c7d4;
+      padding: 0.9rem 1rem;
+      border-radius: 12px;
+      border: 1px solid var(--line);
+      background: #151a26;
+      color: var(--text);
       font-size: 1rem;
       outline: none;
     }
 
-    .search-bar input:focus { border-color: #7b8cde; }
+    .search-bar input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(109, 194, 255, 0.12);
+    }
 
-    /* Container */
-    .container { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem; }
+    .container {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
 
-    /* Cards de jogos */
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
       gap: 1.2rem;
     }
 
     .game-card {
-      background: #16161e;
-      border: 1px solid #2a2a3a;
-      border-radius: 10px;
+      display: block;
+      background: linear-gradient(180deg, var(--panel) 0%, #121722 100%);
+      border: 1px solid var(--line);
+      border-radius: 16px;
       overflow: hidden;
       transition: border-color 0.2s, transform 0.2s;
     }
 
-    .game-card:hover { border-color: #7b8cde; transform: translateY(-2px); }
+    .game-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
 
     .game-card img {
       width: 100%;
-      aspect-ratio: 3/4;
+      aspect-ratio: 3 / 4;
       object-fit: cover;
-      background: #1e1e2e;
+      background: #0f1420;
+      display: block;
     }
 
-    .game-card-body { padding: 0.8rem; }
-    .game-card-title { font-weight: 600; font-size: 0.95rem; color: #e0e0f0; }
-    .game-card-meta  { font-size: 0.78rem; color: #6060a0; margin-top: 0.3rem; }
+    .game-card-body {
+      padding: 0.95rem;
+    }
 
-    /* Mensagem vazia */
+    .game-card-title {
+      font-weight: 700;
+      font-size: 0.98rem;
+      color: #f4f7ff;
+    }
+
+    .game-card-meta {
+      font-size: 0.8rem;
+      color: var(--muted);
+      margin-top: 0.35rem;
+      line-height: 1.5;
+    }
+
     .empty-msg {
       text-align: center;
-      padding: 3rem 0;
-      color: #5050a0;
+      padding: 3rem 1rem;
+      color: var(--muted);
       font-size: 1rem;
+      background: rgba(24, 29, 42, 0.75);
+      border: 1px dashed var(--line);
+      border-radius: 16px;
     }
 
-    /* Flash messages */
-    .messages { list-style: none; padding: 0.8rem 2rem; }
+    .messages {
+      list-style: none;
+      max-width: 1180px;
+      margin: 1rem auto 0;
+      padding: 0 2rem;
+    }
+
     .messages li {
-      background: #1e1e3a;
-      border-left: 3px solid #7b8cde;
-      padding: 0.6rem 1rem;
-      border-radius: 4px;
-      margin-bottom: 0.5rem;
-      font-size: 0.9rem;
+      background: rgba(39, 85, 122, 0.22);
+      border: 1px solid rgba(109, 194, 255, 0.22);
+      color: #cae8ff;
+      padding: 0.8rem 1rem;
+      border-radius: 12px;
+      margin-bottom: 0.6rem;
+      font-size: 0.92rem;
+    }
+
+    @media (max-width: 720px) {
+      nav {
+        height: auto;
+        padding: 1rem;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.8rem;
+      }
+
+      .nav-left,
+      .nav-links {
+        flex-wrap: wrap;
+      }
+
+      .container {
+        padding: 1.25rem;
+      }
     }
   </style>
   {% block extra_css %}{% endblock %}
@@ -138,14 +234,19 @@
 <body>
 
 <nav>
-  <a class="nav-brand" href="{% url 'game_search' %}">🎮 Game_Ranking</a>
+  <div class="nav-left">
+    <a class="nav-brand" href="{% url 'home' %}">Game Ranking</a>
+    <a class="nav-link" href="{% url 'home' %}">Início</a>
+    <a class="nav-link" href="{% url 'game_search' %}">Buscar</a>
+    <a class="nav-link" href="{% url 'monthly_ranking' %}">Top 20</a>
+  </div>
   <div class="nav-links">
     {% if user.is_authenticated %}
       <span class="nav-user">Olá, <strong>{{ user.username }}</strong></span>
-      <a href="{% url 'profile' %}">Perfil</a>
+      <a class="nav-link" href="{% url 'profile' %}">Perfil</a>
       <a href="{% url 'logout' %}" class="btn btn-ghost">Sair</a>
     {% else %}
-      <a href="{% url 'login' %}">Entrar</a>
+      <a class="nav-link" href="{% url 'login' %}">Entrar</a>
       <a href="{% url 'register' %}" class="btn btn-primary">Cadastrar</a>
     {% endif %}
   </div>
