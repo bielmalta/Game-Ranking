@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Perfil | Game Ranking{% endblock %}
+
+{% block content %}
+<section class="container">
+  <div style="margin-bottom:1.8rem;">
+    <h1 style="font-size:2rem;color:#f5f8ff;margin-bottom:0.35rem;">Seu perfil</h1>
+    <p style="color:#9aa8cf;line-height:1.7;">Acompanhe suas avaliações e comentários em um só lugar.</p>
+  </div>
+
+  <section style="display:grid;gap:1.5rem;">
+    <div style="background:linear-gradient(180deg,#171c28 0%,#101520 100%);border:1px solid #2d354a;border-radius:18px;padding:1.4rem;">
+      <h2 style="font-size:1.15rem;color:#f5f8ff;margin-bottom:1rem;">Suas avaliações</h2>
+      {% if ratings %}
+        <div style="display:grid;gap:0.9rem;">
+          {% for rating in ratings %}
+            <a href="{% url 'game_detail' rating.game.pk %}" style="display:flex;justify-content:space-between;gap:1rem;padding:0.9rem 1rem;border:1px solid #283046;border-radius:14px;background:rgba(11,16,24,0.35);">
+              <span style="color:#e8f0ff;font-weight:700;">{{ rating.game.title }}</span>
+              <span style="color:#f3d27a;">{{ rating.score }} estrela(s)</span>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-msg">Você ainda não avaliou nenhum jogo.</div>
+      {% endif %}
+    </div>
+
+    <div style="background:linear-gradient(180deg,#171c28 0%,#101520 100%);border:1px solid #2d354a;border-radius:18px;padding:1.4rem;">
+      <h2 style="font-size:1.15rem;color:#f5f8ff;margin-bottom:1rem;">Seus comentários</h2>
+      {% if comments %}
+        <div style="display:grid;gap:0.9rem;">
+          {% for comment in comments %}
+            <a href="{% url 'game_detail' comment.game.pk %}" style="display:block;padding:1rem;border:1px solid #283046;border-radius:14px;background:rgba(11,16,24,0.35);">
+              <div style="color:#e8f0ff;font-weight:700;margin-bottom:0.4rem;">{{ comment.game.title }}</div>
+              <div style="color:#cad3ef;line-height:1.7;">{{ comment.body }}</div>
+              <div style="margin-top:0.45rem;color:#92a0c8;font-size:0.82rem;">{{ comment.updated_at|date:"d/m/Y H:i" }}</div>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-msg">Você ainda não comentou em nenhum jogo.</div>
+      {% endif %}
+    </div>
+  </section>
+</section>
+{% endblock %}

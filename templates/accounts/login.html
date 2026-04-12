@@ -1,38 +1,35 @@
 {% extends 'base.html' %}
 
-{% block title %}Entrar | Game_Ranking{% endblock %}
+{% block title %}Entrar | Game Ranking{% endblock %}
 
 {% block extra_css %}
 <style>
   .auth-shell {
-    min-height: calc(100vh - 56px);
+    min-height: calc(100vh - 64px);
     display: grid;
     place-items: center;
     padding: 2rem;
-    background:
-      radial-gradient(circle at top, rgba(123, 140, 222, 0.18), transparent 35%),
-      linear-gradient(180deg, #101019 0%, #0b0b12 100%);
   }
 
   .auth-card {
-    width: min(100%, 440px);
-    background: rgba(22, 22, 30, 0.96);
-    border: 1px solid #2a2a3a;
-    border-radius: 16px;
+    width: min(100%, 460px);
+    background: linear-gradient(180deg, rgba(30, 36, 51, 0.96) 0%, rgba(18, 23, 34, 0.96) 100%);
+    border: 1px solid #2d354a;
+    border-radius: 20px;
     padding: 2rem;
     box-shadow: 0 24px 80px rgba(0, 0, 0, 0.35);
   }
 
   .auth-card h1 {
-    color: #f2f3ff;
-    font-size: 1.8rem;
+    color: #f2f6ff;
+    font-size: 1.9rem;
     margin-bottom: 0.6rem;
   }
 
   .auth-card p {
-    color: #9ca3c9;
-    margin-bottom: 1.5rem;
-    line-height: 1.5;
+    color: #9aa8cf;
+    margin-bottom: 1.4rem;
+    line-height: 1.6;
   }
 
   .auth-form {
@@ -67,11 +64,11 @@
 
   .auth-submit {
     width: 100%;
-    padding: 0.8rem 1rem;
-    border-radius: 10px;
-    background: linear-gradient(135deg, #7b8cde, #6070c8);
-    color: #fff;
-    font-weight: 700;
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: linear-gradient(135deg, #6dc2ff, #4097d9);
+    color: #08111b;
+    font-weight: 800;
     border: none;
     cursor: pointer;
   }
@@ -89,7 +86,7 @@
 <section class="auth-shell">
   <div class="auth-card">
     <h1>Entrar</h1>
-    <p>Use seu nome de usuario e senha para acessar sua conta.</p>
+    <p>Use seu nome de usuário e senha para acessar sua conta.</p>
 
     {% if form.non_field_errors %}
       <ul class="auth-errors">
@@ -121,7 +118,7 @@
     </form>
 
     <div class="auth-footer">
-      Ainda nao tem conta? <a href="{% url 'register' %}">Cadastre-se</a>
+      Ainda não tem conta? <a href="{% url 'register' %}">Cadastre-se</a>
     </div>
   </div>
 </section>

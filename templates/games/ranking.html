@@ -1,0 +1,136 @@
+{% extends 'base.html' %}
+{% block title %}Top 20 | Game Ranking{% endblock %}
+
+{% block extra_css %}
+<style>
+  .ranking-page {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 2.25rem 2rem 3rem;
+  }
+
+  .ranking-header {
+    margin-bottom: 1.6rem;
+  }
+
+  .ranking-title {
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: #f5f8ff;
+    margin-bottom: 0.5rem;
+  }
+
+  .ranking-copy {
+    color: #9aa8cf;
+    line-height: 1.7;
+    max-width: 68ch;
+  }
+
+  .ranking-list {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .ranking-row {
+    display: grid;
+    grid-template-columns: 72px 1.4fr 0.9fr 0.8fr 0.8fr;
+    gap: 1rem;
+    align-items: center;
+    padding: 1rem 1.1rem;
+    background: linear-gradient(180deg, #171c28 0%, #101520 100%);
+    border: 1px solid #2d354a;
+    border-radius: 16px;
+  }
+
+  .ranking-position {
+    width: 3rem;
+    height: 3rem;
+    display: grid;
+    place-items: center;
+    border-radius: 999px;
+    background: rgba(241, 199, 91, 0.12);
+    border: 1px solid rgba(241, 199, 91, 0.35);
+    color: #f6d982;
+    font-weight: 800;
+  }
+
+  .ranking-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #f5f8ff;
+  }
+
+  .ranking-subtext {
+    color: #9aa8cf;
+    margin-top: 0.35rem;
+    line-height: 1.55;
+    font-size: 0.88rem;
+  }
+
+  .ranking-col {
+    color: #cfd8f5;
+    font-size: 0.92rem;
+  }
+
+  .ranking-label {
+    display: block;
+    color: #8090bd;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 0.2rem;
+  }
+
+  @media (max-width: 900px) {
+    .ranking-row {
+      grid-template-columns: 60px 1fr;
+    }
+  }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="ranking-page">
+  <header class="ranking-header">
+    <h1 class="ranking-title">Top 20 jogos mais avaliados</h1>
+    <p class="ranking-copy">
+      Lista dos jogos com mais avaliações registradas em {{ ranking_period }}. A ordem considera apenas o mês atual.
+    </p>
+  </header>
+
+  {% if ranking_games %}
+    <div class="ranking-list">
+      {% for game in ranking_games %}
+        <a href="{% url 'game_detail' game.pk %}" class="ranking-row">
+          <div class="ranking-position">#{{ forloop.counter }}</div>
+          <div>
+            <div class="ranking-name">{{ game.title }}</div>
+            <div class="ranking-subtext">
+              {% if game.genres.all %}
+                {% for genre in game.genres.all %}
+                  {{ genre.name }}{% if not forloop.last %} • {% endif %}
+                {% endfor %}
+              {% else %}
+                Sem gênero cadastrado
+              {% endif %}
+            </div>
+          </div>
+          <div class="ranking-col">
+            <span class="ranking-label">Avaliações no mês</span>
+            {{ game.monthly_ratings }}
+          </div>
+          <div class="ranking-col">
+            <span class="ranking-label">Nota média</span>
+            {% if game.average_rating %}{{ game.average_rating }}{% else %}Sem nota{% endif %}
+          </div>
+          <div class="ranking-col">
+            <span class="ranking-label">Ano</span>
+            {% if game.release_year %}{{ game.release_year }}{% else %}Não informado{% endif %}
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  {% else %}
+    <div class="empty-msg">Ainda não há avaliações no mês atual para montar o top 20.</div>
+  {% endif %}
+</section>
+{% endblock %}

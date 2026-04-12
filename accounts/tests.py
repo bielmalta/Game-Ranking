@@ -12,7 +12,7 @@ class AccountsAuthTests(TestCase):
             'password2': 'SenhaForte123',
         })
 
-        self.assertRedirects(response, reverse('game_search'))
+        self.assertRedirects(response, reverse('home'))
         user = User.objects.get(username='arthur')
         self.assertEqual(self.client.session.get('_auth_user_id'), str(user.id))
 
@@ -24,7 +24,7 @@ class AccountsAuthTests(TestCase):
             'password': 'SenhaForte123',
         })
 
-        self.assertRedirects(response, reverse('game_search'))
+        self.assertRedirects(response, reverse('home'))
         self.assertEqual(self.client.session.get('_auth_user_id'), str(user.id))
 
     def test_login_with_invalid_credentials_shows_error(self):
@@ -36,7 +36,7 @@ class AccountsAuthTests(TestCase):
         })
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'Usuario ou senha incorretos.')
+        self.assertContains(response, 'Usuário ou senha incorretos.')
 
     def test_logout_clears_session(self):
         user = User.objects.create_user(username='arthur', password='SenhaForte123')
