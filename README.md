@@ -100,6 +100,15 @@ Também foram preenchidas no painel do Render estas variáveis:
 
 - Screencast: https://youtu.be/iYjTGXvBgdk
 - Relatório de pair programming: 
+
 Durante a prática de pair programming, as duplas alternaram os papéis de driver e navigator, mantendo comunicação constante, revisando o código continuamente e dividindo tarefas de forma lógica para garantir produtividade. Como resultado, houve redução de erros, maior clareza nas soluções, aprendizado mútuo, melhoria na qualidade do código e desenvolvimento de habilidades de comunicação e trabalho em equipe. Apesar de desafios como adaptação ao ritmo do parceiro, divergências de ideias e maior tempo na tomada de decisões, esses foram superados com diálogo e colaboração, tornando a prática eficaz tanto tecnicamente quanto no fortalecimento de competências interpessoais essenciais na área de tecnologia.
 Durante a prática de pair programming, as duplas alternaram os papéis de driver e navigator, mantendo comunicação constante, revisando o código continuamente e dividindo tarefas de forma lógica para garantir produtividade. Como resultado, houve redução de erros, maior clareza nas soluções, aprendizado mútuo, melhoria na qualidade do código e desenvolvimento de habilidades de comunicação e trabalho em equipe. Apesar de desafios como adaptação ao ritmo do parceiro, divergências de ideias e maior tempo na tomada de decisões, esses foram superados com diálogo e colaboração, tornando a prática eficaz tanto tecnicamente quanto no fortalecimento de competências interpessoais essenciais na área de tecnologia.
+## Entrega 3
+-Prints do jira:
+-screencast (histórias):
+-screencast (CI/CD):
+-screencast (Testes):
+- Relatório de pair programming:
+Após um período de continuidade na prática de pair programming, foi possível observar uma evolução significativa na dinâmica das duplas, com maior sincronização entre driver e navigator e redução das divergências iniciais. A comunicação tornou-se mais objetiva e eficiente, permitindo decisões mais rápidas e um fluxo de trabalho mais natural. Além disso, houve aumento na confiança entre os participantes, refletindo em maior autonomia e produtividade. Os erros continuaram sendo minimizados e a qualidade do código manteve-se elevada, evidenciando que a prática constante contribui não apenas para o aprimoramento técnico, mas também para o fortalecimento do trabalho em equipe e adaptação a diferentes estilos de pensamento.
+
 
