@@ -12,9 +12,6 @@ allowed_hosts = [
     for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
     if host.strip()
 ]
-render_external_hostname = os.getenv("RENDER_EXTERNAL_HOSTNAME")
-if render_external_hostname and render_external_hostname not in allowed_hosts:
-    allowed_hosts.append(render_external_hostname)
 
 ALLOWED_HOSTS = allowed_hosts
 
@@ -23,10 +20,6 @@ csrf_trusted_origins = [
     for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
     if origin.strip()
 ]
-if render_external_hostname:
-    render_origin = f"https://{render_external_hostname}"
-    if render_origin not in csrf_trusted_origins:
-        csrf_trusted_origins.append(render_origin)
 
 CSRF_TRUSTED_ORIGINS = csrf_trusted_origins
 
