@@ -9,6 +9,6 @@
     "cypress:open:prod": "cypress open --config baseUrl=https://game-ranking-ehdyhxdea8cbhyee.brazilsouth-01.azurewebsites.net"
   },
   "devDependencies": {
-    "cypress": "^13.15.0"
+    "cypress": "^14.5.4"
   }
 }
