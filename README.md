@@ -14,7 +14,8 @@ Projeto feito em Django para buscar jogos, ver detalhes, avaliar, comentar e aco
 - entrar e sair da conta
 - avaliar jogos
 - comentar em jogos
-- ver o perfil do usuário
+- ver o perfil do usuário com avaliações, comentários e lista de jogos jogados
+- marcar e desmarcar um jogo como jogado a partir da página de detalhes
 
 ## Estrutura das páginas
 
@@ -164,3 +165,29 @@ Durante a prática de pair programming, as duplas alternaram os papéis de drive
 
 - Relatório de pair programming:
 Após um período de continuidade na prática de pair programming, foi possível observar uma evolução significativa na dinâmica das duplas, com maior sincronização entre driver e navigator e redução das divergências iniciais. A comunicação tornou-se mais objetiva e eficiente, permitindo decisões mais rápidas e um fluxo de trabalho mais natural. Além disso, houve aumento na confiança entre os participantes, refletindo em maior autonomia e produtividade. Os erros continuaram sendo minimizados e a qualidade do código manteve-se elevada, evidenciando que a prática constante contribui não apenas para o aprimoramento técnico, mas também para o fortalecimento do trabalho em equipe e adaptação a diferentes estilos de pensamento.
+
+## Entrega 4
+
+- Site em produção: https://game-ranking-app-ehfhd4gnhvgtatfq.brazilsouth-01.azurewebsites.net/
+- Screencast das histórias finais (com URL visível durante todo o vídeo): _<adicionar link YouTube>_
+- Screencast dos testes E2E (execução do `npm run cypress:run`): _<adicionar link YouTube>_
+- Screencast do CI/CD (build + testes + deploy automatizado): _<adicionar link YouTube>_
+- Sprint 04 no Jira (prints do quadro e do backlog): _<adicionar imagens>_
+- Issue/bug tracker (GitHub Issues): https://github.com/CC-2025-2-CESAR/Game-Ranking/issues
+- Guia de contribuição: [CONTRIBUTING.md](./CONTRIBUTING.md)
+
+### Histórias entregues nesta sprint
+
+- **Lista de jogos jogados**: usuário pode marcar/desmarcar um jogo como jogado a partir da página de detalhes; a lista aparece no perfil. Implementada pelo modelo `PlayedGame` em `games/models.py`, view `toggle_played` em `games/views.py`, rota `/jogo/<id>/jogado/` e nova seção "Jogos jogados" em `templates/accounts/profile.html`. Teste E2E em `cypress/e2e/07-played.cy.js`.
+
+### CI/CD
+
+A pipeline (`.github/workflows/django.yml`) tem três jobs encadeados:
+
+1. **`test`** — `python manage.py test` (testes unitários/integração Django).
+2. **`cypress`** — sobe `runserver` em sqlite isolado, faz seed de jogos demo e executa `npm run cypress:run` contra todos os specs em `cypress/e2e/`.
+3. **`deploy`** — só roda em push para `main`, depende de `test` E `cypress` passarem, faz `collectstatic` e publica para a Azure Web App `game-ranking-app`.
+
+### Atualização sobre pair programming
+
+Na Entrega 4 a prática de pair programming foi mantida com rodízio mais ágil entre driver e navigator: o tempo médio em cada papel caiu, permitindo que mais membros tocassem nas partes mais sensíveis do projeto (pipeline CI/CD, modelo `PlayedGame`, configuração da Azure). A maior maturidade do time também permitiu sessões assíncronas — duas pessoas alinhavam por chamada de voz e revisavam em PR no GitHub, sem precisar estar lado a lado o tempo todo. O efeito foi um ciclo de revisão mais curto e menos retrabalho na pipeline de deploy.
