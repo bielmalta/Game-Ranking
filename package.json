@@ -5,8 +5,8 @@
   "scripts": {
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",
-    "cypress:run:prod": "cypress run --config baseUrl=https://game-ranking-ehdyhxdea8cbhyee.brazilsouth-01.azurewebsites.net",
-    "cypress:open:prod": "cypress open --config baseUrl=https://game-ranking-ehdyhxdea8cbhyee.brazilsouth-01.azurewebsites.net"
+    "cypress:run:prod": "cypress run --config baseUrl=https://game-ranking-app-ehfhd4gnhvgtatfq.brazilsouth-01.azurewebsites.net",
+    "cypress:open:prod": "cypress open --config baseUrl=https://game-ranking-app-ehfhd4gnhvgtatfq.brazilsouth-01.azurewebsites.net"
   },
   "devDependencies": {
     "cypress": "^14.5.4"
