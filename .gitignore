@@ -60,3 +60,16 @@ node_modules/
 cypress/videos/
 cypress/screenshots/
 cypress/downloads/
+cypress/results/
+
+# Secrets / credentials (extras)
+*.key
+*.crt
+*.publishsettings
+PublishProfile*.xml
+secrets.json
+credentials.json
+
+# Python build leftovers
+*.pyo
+*.pyd
