@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.db import models
 
 
@@ -43,3 +44,18 @@ class Game(models.Model):
         verbose_name = 'Jogo'
         verbose_name_plural = 'Jogos'
         ordering = ['title']
+
+
+class PlayedGame(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='played_games')
+    game = models.ForeignKey(Game, on_delete=models.CASCADE, related_name='played_by')
+    played_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ('user', 'game')
+        ordering = ['-played_at']
+        verbose_name = 'Jogo jogado'
+        verbose_name_plural = 'Jogos jogados'
+
+    def __str__(self):
+        return f'{self.user} jogou {self.game}'

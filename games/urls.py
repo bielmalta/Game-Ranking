@@ -9,4 +9,5 @@ urlpatterns = [
     path('ranking/', views.monthly_ranking, name='monthly_ranking'),
     path('genero/<int:genre_id>/', views.genre_games, name='genre_games'),
     path('jogo/<int:pk>/', views.game_detail, name='game_detail'),
+    path('jogo/<int:pk>/jogado/', views.toggle_played, name='toggle_played'),
 ]

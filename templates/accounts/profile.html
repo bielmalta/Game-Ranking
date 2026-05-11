@@ -5,10 +5,25 @@
 <section class="container">
   <div style="margin-bottom:1.8rem;">
     <h1 style="font-size:2rem;color:#f5f8ff;margin-bottom:0.35rem;">Seu perfil</h1>
-    <p style="color:#9aa8cf;line-height:1.7;">Acompanhe suas avaliações e comentários em um só lugar.</p>
+    <p style="color:#9aa8cf;line-height:1.7;">Acompanhe suas avaliações, comentários e jogos jogados em um só lugar.</p>
   </div>
 
   <section style="display:grid;gap:1.5rem;">
+    <div style="background:linear-gradient(180deg,#171c28 0%,#101520 100%);border:1px solid #2d354a;border-radius:18px;padding:1.4rem;" data-testid="played-section">
+      <h2 style="font-size:1.15rem;color:#f5f8ff;margin-bottom:1rem;">Jogos jogados</h2>
+      {% if played %}
+        <div style="display:grid;gap:0.9rem;">
+          {% for entry in played %}
+            <a href="{% url 'game_detail' entry.game.pk %}" style="display:flex;justify-content:space-between;gap:1rem;padding:0.9rem 1rem;border:1px solid #283046;border-radius:14px;background:rgba(11,16,24,0.35);">
+              <span style="color:#e8f0ff;font-weight:700;">{{ entry.game.title }}</span>
+              <span style="color:#92a0c8;font-size:0.85rem;">{{ entry.played_at|date:"d/m/Y" }}</span>
+            </a>
+          {% endfor %}
+        </div>
+      {% else %}
+        <div class="empty-msg">Você ainda não marcou nenhum jogo como jogado.</div>
+      {% endif %}
+    </div>
     <div style="background:linear-gradient(180deg,#171c28 0%,#101520 100%);border:1px solid #2d354a;border-radius:18px;padding:1.4rem;">
       <h2 style="font-size:1.15rem;color:#f5f8ff;margin-bottom:1rem;">Suas avaliações</h2>
       {% if ratings %}
