@@ -7,7 +7,12 @@ from .models import Rating, Comment
 def rate_game(request, pk):
     if request.method == 'POST':
         game  = get_object_or_404(Game, pk=pk)
-        score = int(request.POST.get('score', 0))
+        score_raw = request.POST.get('score', '')
+        try:
+            score = int(score_raw)
+        except (TypeError, ValueError):
+            score = 0
+
         if 1 <= score <= 5:
             Rating.objects.update_or_create(
                 user=request.user,

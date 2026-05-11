@@ -27,6 +27,26 @@ class AccountsAuthTests(TestCase):
         self.assertRedirects(response, reverse('home'))
         self.assertEqual(self.client.session.get('_auth_user_id'), str(user.id))
 
+    def test_login_with_safe_next_redirects_to_next_url(self):
+        User.objects.create_user(username='arthur', password='SenhaForte123')
+
+        response = self.client.post(f"{reverse('login')}?next=/ranking/", {
+            'username': 'arthur',
+            'password': 'SenhaForte123',
+        })
+
+        self.assertRedirects(response, reverse('monthly_ranking'))
+
+    def test_login_with_external_next_redirects_to_home(self):
+        User.objects.create_user(username='arthur', password='SenhaForte123')
+
+        response = self.client.post(f"{reverse('login')}?next=https://example.com/phishing", {
+            'username': 'arthur',
+            'password': 'SenhaForte123',
+        })
+
+        self.assertRedirects(response, reverse('home'))
+
     def test_login_with_invalid_credentials_shows_error(self):
         User.objects.create_user(username='arthur', password='SenhaForte123')
 

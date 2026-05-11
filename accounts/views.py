@@ -2,6 +2,8 @@ from django.contrib import messages
 from django.contrib.auth import login, logout
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from django.urls import reverse
+from django.utils.http import url_has_allowed_host_and_scheme
 
 from .forms import LoginForm, RegisterForm
 
@@ -26,7 +28,10 @@ def login_view(request):
         return redirect('home')
 
     form = LoginForm(request, data=request.POST or None)
-    next_url = request.GET.get('next') or request.POST.get('next') or 'home'
+    next_url = request.GET.get('next') or request.POST.get('next') or reverse('home')
+
+    if not url_has_allowed_host_and_scheme(next_url, allowed_hosts={request.get_host()}):
+        next_url = reverse('home')
 
     if request.method == 'POST' and form.is_valid():
         login(request, form.get_user())
