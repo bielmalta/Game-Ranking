@@ -1,8 +1,9 @@
+from django.contrib.auth.decorators import login_required
 from django.db.models import Count, Q
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.utils import timezone
 
-from .models import Game, Genre
+from .models import Game, Genre, PlayedGame
 
 
 def monthly_ranking_queryset():
@@ -88,15 +89,30 @@ def game_detail(request, pk):
 
     user_rating = None
     user_comment = None
+    is_played = False
 
     if request.user.is_authenticated:
         user_rating = game.ratings.filter(user=request.user).first()
         user_comment = game.comments.filter(user=request.user).first()
+        is_played = PlayedGame.objects.filter(user=request.user, game=game).exists()
 
     return render(request, 'games/detail.html', {
         'game': game,
         'comments': comments,
         'user_rating': user_rating,
         'user_comment': user_comment,
+        'is_played': is_played,
         'star_range': range(1, 6),
     })
+
+
+@login_required
+def toggle_played(request, pk):
+    if request.method == 'POST':
+        game = get_object_or_404(Game, pk=pk)
+        existing = PlayedGame.objects.filter(user=request.user, game=game).first()
+        if existing:
+            existing.delete()
+        else:
+            PlayedGame.objects.create(user=request.user, game=game)
+    return redirect('game_detail', pk=pk)

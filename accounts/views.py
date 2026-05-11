@@ -49,7 +49,9 @@ def logout_view(request):
 def profile_view(request):
     ratings = request.user.ratings.select_related('game').order_by('-updated_at')
     comments = request.user.comments.select_related('game').order_by('-updated_at')
+    played = request.user.played_games.select_related('game').order_by('-played_at')
     return render(request, 'accounts/profile.html', {
         'ratings': ratings,
         'comments': comments,
+        'played': played,
     })

@@ -228,6 +228,18 @@
         </div>
       {% endif %}
 
+      {% if user.is_authenticated %}
+        <form method="post" action="{% url 'toggle_played' game.pk %}" style="margin-top:1.3rem;">
+          {% csrf_token %}
+          <button type="submit" class="btn {% if is_played %}btn-ghost{% else %}btn-primary{% endif %}" data-testid="toggle-played">
+            {% if is_played %}Remover dos jogos jogados{% else %}Marcar como jogado{% endif %}
+          </button>
+          {% if is_played %}
+            <span style="color:#92a0c8;font-size:0.88rem;margin-left:0.6rem;">Este jogo está na sua lista de jogos jogados.</span>
+          {% endif %}
+        </form>
+      {% endif %}
+
       {% if game.official_url %}
         <div style="margin-top:1.3rem;">
           <a href="{{ game.official_url }}" target="_blank" class="btn btn-ghost">Acessar site oficial</a>
