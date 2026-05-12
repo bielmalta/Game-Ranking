@@ -8,17 +8,17 @@ SECRET_KEY = os.getenv("SECRET_KEY", "dev-only-key")
 DEBUG = os.getenv("DEBUG", "False") == "True"
 
 allowed_hosts = [
-    host.strip()
-    for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
-    if host.strip()
+        host.strip()
+        for host in os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+        if host.strip()
 ]
 
 ALLOWED_HOSTS = allowed_hosts
 
 csrf_trusted_origins = [
-    origin.strip()
-    for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
-    if origin.strip()
+        origin.strip()
+        for origin in os.getenv("CSRF_TRUSTED_ORIGINS", "").split(",")
+        if origin.strip()
 ]
 
 CSRF_TRUSTED_ORIGINS = csrf_trusted_origins
@@ -27,53 +27,53 @@ database_url = os.getenv("DATABASE_URL", "")
 database_uses_ssl = bool(database_url) and not database_url.startswith("sqlite")
 
 INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'games',
-    'reviews',
-    'accounts',
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'games',
+        'reviews',
+        'accounts',
 ]
 
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+        'django.middleware.security.SecurityMiddleware',
+        'whitenoise.middleware.WhiteNoiseMiddleware',
+        'django.contrib.sessions.middleware.SessionMiddleware',
+        'django.middleware.common.CommonMiddleware',
+        'django.middleware.csrf.CsrfViewMiddleware',
+        'django.contrib.auth.middleware.AuthenticationMiddleware',
+        'django.contrib.messages.middleware.MessageMiddleware',
+        'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
 ROOT_URLCONF = 'Game_Ranking.urls'
 
 TEMPLATES = [
-    {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates'],
-        'APP_DIRS': True,
-        'OPTIONS': {
-            'context_processors': [
-                'django.template.context_processors.request',
-                'django.contrib.auth.context_processors.auth',
-                'django.contrib.messages.context_processors.messages',
-            ],
+        {
+                    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+                    'DIRS': [BASE_DIR / 'templates'],
+                    'APP_DIRS': True,
+                    'OPTIONS': {
+                                    'context_processors': [
+                                                        'django.template.context_processors.request',
+                                                        'django.contrib.auth.context_processors.auth',
+                                                        'django.contrib.messages.context_processors.messages',
+                                    ],
+                    },
         },
-    },
 ]
 
 WSGI_APPLICATION = 'Game_Ranking.wsgi.application'
 
 DATABASES = {
-    'default': dj_database_url.config(
-        default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
-        conn_max_age=600,
-        ssl_require=database_uses_ssl,
-    )
+        'default': dj_database_url.config(
+                    default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}",
+                    conn_max_age=600,
+                    ssl_require=database_uses_ssl,
+        )
 }
 
 STATIC_URL = '/static/'
@@ -93,3 +93,15 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Proxy HTTPS (Azure App Service termina TLS no load balancer)
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+
+# Ativa redirect HTTPS apenas em producao (CSRF_TRUSTED_ORIGINS usa https://)
+# No CI, CSRF_TRUSTED_ORIGINS=http://localhost - SECURE_SSL_REDIRECT fica desativado
+_on_https = any(o.startswith('https://') for o in csrf_trusted_origins)
+
+if not DEBUG and _on_https:
+        SECURE_SSL_REDIRECT = True
+        SESSION_COOKIE_SECURE = True
+        CSRF_COOKIE_SECURE = True
