@@ -91,9 +91,15 @@
 {% block content %}
 <section class="ranking-page">
   <header class="ranking-header">
-    <h1 class="ranking-title">Top 20 jogos mais avaliados</h1>
+    <h1 class="ranking-title">
+      {% if is_monthly_ranking %}Top 20 jogos mais avaliados{% else %}Top 20 geral{% endif %}
+    </h1>
     <p class="ranking-copy">
-      Lista dos jogos com mais avaliações registradas em {{ ranking_period }}. A ordem considera apenas o mês atual.
+      {% if is_monthly_ranking %}
+        Lista dos jogos com mais avaliações registradas em {{ ranking_period }}. A ordem considera apenas o mês atual.
+      {% else %}
+        Nenhuma avaliação foi registrada em {{ ranking_period }}, então exibimos o ranking geral por total de avaliações.
+      {% endif %}
     </p>
   </header>
 
@@ -115,8 +121,10 @@
             </div>
           </div>
           <div class="ranking-col">
-            <span class="ranking-label">Avaliações no mês</span>
-            {{ game.monthly_ratings }}
+            <span class="ranking-label">
+              {% if is_monthly_ranking %}Avaliações no mês{% else %}Avaliações totais{% endif %}
+            </span>
+            {% if is_monthly_ranking %}{{ game.monthly_ratings }}{% else %}{{ game.total_ratings }}{% endif %}
           </div>
           <div class="ranking-col">
             <span class="ranking-label">Nota média</span>

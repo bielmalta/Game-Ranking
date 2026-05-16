@@ -121,6 +121,22 @@ class GamePagesTests(TestCase):
         self.assertEqual(response.context['ranking_games'][0].title, 'Game 00')
         self.assertEqual(response.context['ranking_games'][19].title, 'Game 19')
 
+    def test_top_twenty_falls_back_to_general_ranking_when_month_is_empty(self):
+        old_date = timezone.now() - timedelta(days=40)
+        top_game = Game.objects.create(title='Retro Blaze')
+        second_game = Game.objects.create(title='Classic Run')
+
+        self._create_monthly_ratings(top_game, 4, old_date)
+        self._create_monthly_ratings(second_game, 2, old_date)
+
+        response = self.client.get(reverse('monthly_ranking'))
+
+        ranking_titles = [game.title for game in response.context['ranking_games']]
+        self.assertFalse(response.context['is_monthly_ranking'])
+        self.assertEqual(ranking_titles, ['Retro Blaze', 'Classic Run'])
+        self.assertContains(response, 'Top 20 geral')
+        self.assertContains(response, 'Avaliações totais')
+
     def test_search_page_filters_results(self):
         Game.objects.create(title='The Witcher 3')
         Game.objects.create(title='Minecraft')
