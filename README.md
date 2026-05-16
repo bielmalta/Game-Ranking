@@ -144,9 +144,8 @@ Após um período de continuidade na prática de pair programming, foi possível
 ### Entrega 4
 
 - Site em produção: https://game-ranking-app-ehfhd4gnhvgtatfq.brazilsouth-01.azurewebsites.net/
-- Screencast das histórias finais (com URL visível durante todo o vídeo): _<adicionar link YouTube>_
-- Screencast dos testes E2E (execução do `npm run cypress:run`): _<adicionar link YouTube>_
-- Screencast do CI/CD (build + testes + deploy automatizado): _<adicionar link YouTube>_
+- Screencast das histórias finais (com URL visível durante todo o vídeo): [_<adicionar link YouTube>_](https://youtu.be/s_DXP87hk8M)
+- Screencast dos testes E2E (execução do `npm run cypress:run`)/Screencast do CI/CD (build + testes + deploy automatizado):[ _<adicionar link YouTube>_](https://youtu.be/XOkIT6Zml3E)
 - Sprint 04 no Jira (prints do quadro e do backlog): _<adicionar imagens>_
 <img width="1920" height="1002" alt="image" src="https://github.com/user-attachments/assets/0a9e8599-46f6-4d05-af40-0ca3ebc70990" />
 <img width="1920" height="998" alt="image" src="https://github.com/user-attachments/assets/27626dab-da0e-4c96-83f9-866cf6086585" />
