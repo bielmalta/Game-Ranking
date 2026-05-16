@@ -1,7 +1,8 @@
 describe('Smoke: páginas principais carregam', () => {
   it('home / mostra navbar e seções', () => {
     cy.visit('/');
-    cy.contains('a.nav-brand', 'Game Ranking').should('be.visible');
+    cy.get('a.nav-brand[aria-label="Game Ranking"]').should('be.visible');
+    cy.get('a.nav-brand img.nav-logo[alt="Game Ranking"]').should('be.visible');
     cy.contains('.nav-link', 'Início').should('be.visible');
     cy.contains('.nav-link', 'Buscar').should('be.visible');
     cy.contains('.nav-link', 'Top 20').should('be.visible');
