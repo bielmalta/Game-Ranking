@@ -10,6 +10,23 @@ from reviews.models import Rating
 
 
 class GameModelTests(TestCase):
+    def test_cover_source_uses_cover_url_when_local_cover_file_is_missing(self):
+        game = Game(
+            title='Missing Cover Game',
+            cover='covers/missing-cover.jpg',
+            cover_url='https://example.com/fallback.jpg',
+        )
+
+        self.assertEqual(game.cover_source, 'https://example.com/fallback.jpg')
+
+    def test_cover_source_is_empty_when_local_cover_file_is_missing_without_fallback(self):
+        game = Game(
+            title='Missing Cover Game',
+            cover='covers/missing-cover.jpg',
+        )
+
+        self.assertEqual(game.cover_source, '')
+
     def test_trailer_embed_url_converts_youtube_watch_url(self):
         game = Game(
             title='Trailer Game',
