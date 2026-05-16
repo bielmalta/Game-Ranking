@@ -25,6 +25,15 @@ def monthly_ranking_queryset():
     )
 
 
+def overall_ranking_queryset():
+    return (
+        Game.objects.annotate(total_ratings=Count('ratings', distinct=True))
+        .filter(total_ratings__gt=0)
+        .prefetch_related('genres')
+        .order_by('-total_ratings', 'title')
+    )
+
+
 def home(request):
     ranking_queryset = monthly_ranking_queryset()
     featured_games = Game.objects.prefetch_related('genres').order_by('?')[:10]
@@ -60,11 +69,17 @@ def game_search(request):
 
 def monthly_ranking(request):
     ranking_date = timezone.localtime()
-    ranking_games = monthly_ranking_queryset()[:20]
+    ranking_games = list(monthly_ranking_queryset()[:20])
+    is_monthly_ranking = True
+
+    if not ranking_games:
+        ranking_games = list(overall_ranking_queryset()[:20])
+        is_monthly_ranking = False
 
     return render(request, 'games/ranking.html', {
         'ranking_games': ranking_games,
         'ranking_period': ranking_date.strftime('%m/%Y'),
+        'is_monthly_ranking': is_monthly_ranking,
     })
 
 
