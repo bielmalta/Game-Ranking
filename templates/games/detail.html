@@ -248,14 +248,14 @@
     </div>
   </div>
 
-  {% if game.trailer_url %}
+  {% if game.trailer_embed_url %}
     <div class="section">
       <h2 class="section-title">Trailer</h2>
       <div style="aspect-ratio:16/9;border-radius:14px;overflow:hidden;border:1px solid #283046;">
         <iframe
           width="100%"
           height="100%"
-          src="{{ game.trailer_url }}"
+          src="{{ game.trailer_embed_url }}"
           frameborder="0"
           allowfullscreen
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
