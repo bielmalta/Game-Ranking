@@ -113,6 +113,7 @@ npm run cypress:run:prod
 4. **Antes de abrir a PR**, rode localmente:
    - `python manage.py test`
    - `npm run cypress:run` (com o servidor local rodando)
+   - `python manage.py collectstatic --noinput --dry-run` quando mexer em CSS, imagens, favicon ou outros arquivos estáticos
 5. **Abra a PR contra `main`** com:
    - Título curto e descritivo
    - Resumo do que mudou e por quê
@@ -126,6 +127,7 @@ Game-Ranking/
 ├── Game_Ranking/         # configurações Django (settings, urls, wsgi)
 ├── accounts/             # app de usuários (login, cadastro, perfil)
 ├── games/                # app principal (Game, Genre, PlayedGame, ranking, busca)
+│   └── static/games/img/ # logo, favicon e imagens estáticas do app
 ├── reviews/              # app de avaliações e comentários
 ├── templates/            # templates HTML organizados por app
 ├── cypress/              # testes E2E
@@ -143,6 +145,13 @@ Esse projeto é uma atividade prática de FDS e segue duas regras técnicas:
 
 - **Sem generic views** (`ListView`, `DetailView`, etc.) — usar views como função.
 - **Sem `django.forms` para a lógica de novas histórias** — ler dados de `request.POST` direto. As views existentes em `reviews/views.py` são bons modelos.
+
+## Padrões úteis
+
+- Para arquivos estáticos novos, use nomes descritivos e salve em `games/static/games/img/` quando forem assets visuais do site.
+- Para trailers do YouTube, cadastre a URL normal (`watch?v=...`, `youtu.be/...` ou `/embed/...`); o modelo converte automaticamente para iframe.
+- Para capas de jogos, prefira preencher `cover_url` como fallback quando também houver upload local. Assim a página não quebra se o arquivo do storage não existir.
+- Para correções de bug, adicione pelo menos um teste que reproduza o problema antes ou junto da correção.
 
 ## Dúvidas?
 

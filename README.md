@@ -21,13 +21,14 @@ Aplicação Django para descobrir jogos: ver os mais avaliados do mês, buscar p
 ## O que o site faz
 
 - Página inicial com top 3 do mês, 10 jogos aleatórios e gêneros clicáveis
-- Top 20 do mês em página dedicada
+- Top 20 do mês em página dedicada, com fallback para ranking geral quando o mês ainda não tem avaliações
 - Busca de jogos por título
-- Página de detalhes com sinopse, trailer (iframe), gêneros e site oficial
-- Cadastro, login e logout
-- Avaliação por estrelas (1–5) e comentário, com edição posterior
+- Página de detalhes com sinopse, trailer embutido, capa com fallback, gêneros e site oficial
+- Cadastro, login e logout, com bloqueio de e-mails duplicados
+- Avaliação por estrelas (1–5), com destaque visual no hover, e comentário com edição ou remoção
 - Marcar/desmarcar jogo como "jogado"
 - Perfil do usuário com suas avaliações, comentários e jogos jogados
+- Logo na navegação e favicon próprio em `/favicon.ico`
 
 ## Estrutura das páginas
 
@@ -35,10 +36,11 @@ Aplicação Django para descobrir jogos: ver os mais avaliados do mês, buscar p
 |---|---|
 | `/` | Home com ranking, jogos aleatórios e gêneros |
 | `/buscar/` | Busca de jogos |
-| `/ranking/` | Top 20 do mês |
+| `/ranking/` | Top 20 do mês ou ranking geral quando não houver avaliações no mês |
 | `/genero/<id>/` | Jogos de um gênero |
 | `/jogo/<id>/` | Detalhe do jogo (trailer, avaliação, comentários) |
 | `/jogo/<id>/jogado/` | POST que adiciona/remove o jogo da lista de jogados |
+| `/favicon.ico` | Favicon do Game Ranking |
 | `/accounts/register/` | Cadastro |
 | `/accounts/login/` | Login |
 | `/accounts/profile/` | Perfil com avaliações, comentários e jogos jogados |
@@ -159,6 +161,16 @@ Após um período de continuidade na prática de pair programming, foi possível
 #### Histórias entregues nesta sprint
 
 - **Lista de jogos jogados** — botão "Marcar como jogado" / "Remover dos jogos jogados" na página de detalhes, lista no perfil. Modelo `PlayedGame` em `games/models.py`, view `toggle_played` em `games/views.py`, rota `/jogo/<id>/jogado/`, seção "Jogos jogados" em `templates/accounts/profile.html`, spec E2E em `cypress/e2e/07-played.cy.js`.
+
+#### Correções de bugs e UX
+
+- Cadastro bloqueia e-mails duplicados usando comparação sem diferenciar maiúsculas/minúsculas.
+- Comentário vazio remove o comentário existente do usuário naquele jogo, sem criar comentário vazio.
+- Trailers do YouTube são normalizados para URL embutível (`/embed/<id>`) antes de renderizar o iframe.
+- Capas locais ausentes deixam de quebrar a página: o sistema usa `cover_url` e, se não houver, mostra o placeholder "Sem capa".
+- `/favicon.ico` redireciona para o favicon do projeto e a navegação usa a nova logo do Game Ranking.
+- Ranking mensal mostra o Top 20 geral quando não existem avaliações no mês atual, deixando o estado da tela mais claro.
+- Hover das estrelas destaca todas as estrelas até a nota escolhida antes do clique.
 
 #### Atualização sobre pair programming
 
