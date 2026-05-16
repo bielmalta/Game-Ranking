@@ -32,4 +32,6 @@ def save_comment(request, pk):
                 game=game,
                 defaults={'body': body},
             )
+        else:
+            Comment.objects.filter(user=request.user, game=game).delete()
     return redirect('game_detail', pk=pk)
