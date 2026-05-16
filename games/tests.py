@@ -9,6 +9,15 @@ from games.models import Game, Genre
 from reviews.models import Rating
 
 
+class SiteAssetTests(TestCase):
+    def test_favicon_route_returns_svg_icon(self):
+        response = self.client.get('/favicon.ico')
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Content-Type'], 'image/svg+xml')
+        self.assertIn(b'<svg', response.content)
+
+
 class GamePagesTests(TestCase):
     def _create_monthly_ratings(self, game, count, date_value):
         for index in range(count):
