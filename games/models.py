@@ -34,7 +34,7 @@ class Game(models.Model):
 
     @property
     def cover_source(self):
-        if self.cover:
+        if self.cover and self.cover.storage.exists(self.cover.name):
             return self.cover.url
         if self.cover_url:
             return self.cover_url

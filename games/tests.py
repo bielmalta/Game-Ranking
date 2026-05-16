@@ -9,6 +9,25 @@ from games.models import Game, Genre
 from reviews.models import Rating
 
 
+class GameModelTests(TestCase):
+    def test_cover_source_uses_cover_url_when_local_cover_file_is_missing(self):
+        game = Game(
+            title='Missing Cover Game',
+            cover='covers/missing-cover.jpg',
+            cover_url='https://example.com/fallback.jpg',
+        )
+
+        self.assertEqual(game.cover_source, 'https://example.com/fallback.jpg')
+
+    def test_cover_source_is_empty_when_local_cover_file_is_missing_without_fallback(self):
+        game = Game(
+            title='Missing Cover Game',
+            cover='covers/missing-cover.jpg',
+        )
+
+        self.assertEqual(game.cover_source, '')
+
+
 class GamePagesTests(TestCase):
     def _create_monthly_ratings(self, game, count, date_value):
         for index in range(count):
