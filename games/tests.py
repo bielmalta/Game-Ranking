@@ -16,13 +16,29 @@ class SiteAssetTests(TestCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, static('games/img/game-ranking-logo.png'))
-        self.assertContains(response, static('games/img/game-ranking-icon.png'))
+        self.assertContains(response, static('games/img/favicon.ico'))
+        self.assertContains(response, static('games/img/favicon-32.png'))
+        self.assertContains(response, static('games/img/favicon-96.png'))
+
+    def test_homepage_centers_larger_logo_and_preserves_card_covers(self):
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'grid-template-columns: 1fr auto 1fr')
+        self.assertContains(response, 'height: 64px')
+        self.assertContains(response, 'object-fit: contain')
 
     def test_favicon_route_redirects_to_static_icon(self):
         response = self.client.get('/favicon.ico')
 
         self.assertEqual(response.status_code, 301)
-        self.assertEqual(response['Location'], static('games/img/game-ranking-icon.png'))
+        self.assertEqual(response['Location'], static('games/img/favicon.ico'))
+
+    def test_referrer_policy_allows_youtube_embed_identity(self):
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response['Referrer-Policy'], 'strict-origin-when-cross-origin')
 
 
 class GameModelTests(TestCase):
@@ -174,6 +190,8 @@ class GamePagesTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'https://www.youtube.com/embed/pBM2xyco_Kg')
         self.assertNotContains(response, 'https://www.youtube.com/watch?v=pBM2xyco_Kg')
+        self.assertContains(response, 'referrerpolicy="strict-origin-when-cross-origin"')
+        self.assertContains(response, 'title="Trailer de Trailer Detail Game"')
 
     def test_rating_stars_render_reversed_for_hover_fill(self):
         user = User.objects.create_user(username='arthur', password='SenhaForte123')

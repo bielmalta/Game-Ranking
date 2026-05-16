@@ -9,7 +9,7 @@ urlpatterns = [
         path(
                 'favicon.ico',
                 RedirectView.as_view(
-                        url=f'{settings.STATIC_URL}games/img/game-ranking-icon.png',
+                        url=f'{settings.STATIC_URL}games/img/favicon.ico',
                         permanent=True,
                 ),
                 name='favicon',

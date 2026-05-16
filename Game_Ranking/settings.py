@@ -93,6 +93,7 @@ LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+SECURE_REFERRER_POLICY = 'strict-origin-when-cross-origin'
 
 # Proxy HTTPS (Azure App Service termina TLS no load balancer)
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')

@@ -27,8 +27,10 @@
   .detail-cover-placeholder {
     width: 100%;
     aspect-ratio: 3 / 4;
-    object-fit: cover;
+    object-fit: contain;
+    object-position: center;
     display: block;
+    background: #101622;
   }
 
   .detail-cover-placeholder {
@@ -259,8 +261,10 @@
           width="100%"
           height="100%"
           src="{{ game.trailer_embed_url }}"
+          title="Trailer de {{ game.title }}"
           frameborder="0"
           allowfullscreen
+          referrerpolicy="strict-origin-when-cross-origin"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture">
         </iframe>
       </div>
