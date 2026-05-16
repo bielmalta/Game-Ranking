@@ -1,9 +1,11 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="pt-br">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{% block title %}Game Ranking{% endblock %}</title>
+  <link rel="icon" href="{% static 'games/img/game-ranking-icon.png' %}" type="image/png">
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -52,10 +54,18 @@
     }
 
     .nav-brand {
-      font-size: 1.2rem;
-      font-weight: 700;
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
       color: #eef6ff;
-      letter-spacing: 0.04em;
+    }
+
+    .nav-logo {
+      display: block;
+      width: auto;
+      height: 44px;
+      max-width: 220px;
+      object-fit: contain;
     }
 
     .nav-link {
@@ -224,6 +234,11 @@
         flex-wrap: wrap;
       }
 
+      .nav-logo {
+        height: 40px;
+        max-width: 190px;
+      }
+
       .container {
         padding: 1.25rem;
       }
@@ -235,7 +250,9 @@
 
 <nav>
   <div class="nav-left">
-    <a class="nav-brand" href="{% url 'home' %}">Game Ranking</a>
+    <a class="nav-brand" href="{% url 'home' %}" aria-label="Game Ranking">
+      <img class="nav-logo" src="{% static 'games/img/game-ranking-logo.png' %}" alt="Game Ranking">
+    </a>
     <a class="nav-link" href="{% url 'home' %}">Início</a>
     <a class="nav-link" href="{% url 'game_search' %}">Buscar</a>
     <a class="nav-link" href="{% url 'monthly_ranking' %}">Top 20</a>

@@ -1,12 +1,28 @@
 from datetime import timedelta
 
 from django.contrib.auth.models import User
+from django.templatetags.static import static
 from django.test import TestCase
 from django.urls import reverse
 from django.utils import timezone
 
 from games.models import Game, Genre
 from reviews.models import Rating
+
+
+class SiteAssetTests(TestCase):
+    def test_homepage_uses_logo_and_favicon_assets(self):
+        response = self.client.get(reverse('home'))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, static('games/img/game-ranking-logo.png'))
+        self.assertContains(response, static('games/img/game-ranking-icon.png'))
+
+    def test_favicon_route_redirects_to_static_icon(self):
+        response = self.client.get('/favicon.ico')
+
+        self.assertEqual(response.status_code, 301)
+        self.assertEqual(response['Location'], static('games/img/game-ranking-icon.png'))
 
 
 class GameModelTests(TestCase):
