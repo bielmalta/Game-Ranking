@@ -147,6 +147,8 @@ Após um período de continuidade na prática de pair programming, foi possível
 - Screencast do CI/CD (build + testes + deploy automatizado): _<adicionar link YouTube>_
 - Sprint 04 no Jira (prints do quadro e do backlog): _<adicionar imagens>_
 - Issue/bug tracker (GitHub Issues): https://github.com/CC-2025-2-CESAR/Game-Ranking/issues
+<img width="1920" height="1003" alt="image" src="https://github.com/user-attachments/assets/1f2408cc-1c84-4e91-ab82-e4cf16e24d41" />
+
 - Guia de contribuição: [CONTRIBUTING.md](./CONTRIBUTING.md)
 
 #### Histórias entregues nesta sprint
