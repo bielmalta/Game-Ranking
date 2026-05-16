@@ -59,3 +59,9 @@ class RegisterForm(UserCreationForm):
                 'placeholder': placeholders.get(name, ''),
                 'style': INPUT_STYLE,
             })
+
+    def clean_email(self):
+        email = self.cleaned_data['email'].strip()
+        if User.objects.filter(email__iexact=email).exists():
+            raise forms.ValidationError('Este e-mail já está em uso.')
+        return email

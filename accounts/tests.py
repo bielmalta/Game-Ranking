@@ -16,6 +16,24 @@ class AccountsAuthTests(TestCase):
         user = User.objects.get(username='arthur')
         self.assertEqual(self.client.session.get('_auth_user_id'), str(user.id))
 
+    def test_register_rejects_duplicate_email_case_insensitive(self):
+        User.objects.create_user(
+            username='arthur',
+            email='teste@example.com',
+            password='SenhaForte123',
+        )
+
+        response = self.client.post(reverse('register'), {
+            'username': 'arthur2',
+            'email': 'TESTE@example.com',
+            'password1': 'SenhaForte123',
+            'password2': 'SenhaForte123',
+        })
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'Este e-mail já está em uso.')
+        self.assertEqual(User.objects.filter(email__iexact='teste@example.com').count(), 1)
+
     def test_login_with_valid_credentials(self):
         user = User.objects.create_user(username='arthur', password='SenhaForte123')
 
