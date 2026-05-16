@@ -9,6 +9,49 @@ from games.models import Game, Genre
 from reviews.models import Rating
 
 
+class GameModelTests(TestCase):
+    def test_trailer_embed_url_converts_youtube_watch_url(self):
+        game = Game(
+            title='Trailer Game',
+            trailer_url='https://www.youtube.com/watch?v=pBM2xyco_Kg&vl=en',
+        )
+
+        self.assertEqual(
+            game.trailer_embed_url,
+            'https://www.youtube.com/embed/pBM2xyco_Kg',
+        )
+
+    def test_trailer_embed_url_converts_short_youtube_url(self):
+        game = Game(
+            title='Short Trailer Game',
+            trailer_url='https://youtu.be/lG9PuYxh_q0?si=cv2DN1OyQVI_7FyT',
+        )
+
+        self.assertEqual(
+            game.trailer_embed_url,
+            'https://www.youtube.com/embed/lG9PuYxh_q0',
+        )
+
+    def test_trailer_embed_url_keeps_embed_url(self):
+        game = Game(
+            title='Embed Trailer Game',
+            trailer_url='https://www.youtube.com/embed/pBM2xyco_Kg',
+        )
+
+        self.assertEqual(
+            game.trailer_embed_url,
+            'https://www.youtube.com/embed/pBM2xyco_Kg',
+        )
+
+    def test_trailer_embed_url_keeps_non_youtube_url(self):
+        game = Game(
+            title='External Trailer Game',
+            trailer_url='https://example.com/trailer',
+        )
+
+        self.assertEqual(game.trailer_embed_url, 'https://example.com/trailer')
+
+
 class GamePagesTests(TestCase):
     def _create_monthly_ratings(self, game, count, date_value):
         for index in range(count):
@@ -70,6 +113,18 @@ class GamePagesTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'The Witcher 3')
         self.assertNotContains(response, 'Minecraft')
+
+    def test_game_detail_uses_embed_url_for_youtube_trailer(self):
+        game = Game.objects.create(
+            title='Trailer Detail Game',
+            trailer_url='https://www.youtube.com/watch?v=pBM2xyco_Kg&vl=en',
+        )
+
+        response = self.client.get(reverse('game_detail', args=[game.pk]))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'https://www.youtube.com/embed/pBM2xyco_Kg')
+        self.assertNotContains(response, 'https://www.youtube.com/watch?v=pBM2xyco_Kg')
 
     def test_genre_page_lists_only_games_from_selected_genre(self):
         action = Genre.objects.create(name='Ação')

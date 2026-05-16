@@ -1,3 +1,5 @@
+from urllib.parse import parse_qs, urlparse
+
 from django.contrib.auth.models import User
 from django.db import models
 
@@ -39,6 +41,32 @@ class Game(models.Model):
         if self.cover_url:
             return self.cover_url
         return ''
+
+    @property
+    def trailer_embed_url(self):
+        url = self.trailer_url.strip()
+        if not url:
+            return ''
+
+        parsed = urlparse(url)
+        host = parsed.netloc.lower()
+        if host.startswith('www.'):
+            host = host[4:]
+
+        video_id = ''
+        if host in ('youtube.com', 'm.youtube.com'):
+            if parsed.path == '/watch':
+                video_id = parse_qs(parsed.query).get('v', [''])[0]
+            elif parsed.path.startswith('/embed/'):
+                video_id = parsed.path.split('/embed/', 1)[1].split('/')[0]
+            elif parsed.path.startswith('/shorts/'):
+                video_id = parsed.path.split('/shorts/', 1)[1].split('/')[0]
+        elif host == 'youtu.be':
+            video_id = parsed.path.strip('/').split('/')[0]
+
+        if video_id:
+            return f'https://www.youtube.com/embed/{video_id}'
+        return url
 
     class Meta:
         verbose_name = 'Jogo'
