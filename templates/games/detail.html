@@ -63,7 +63,9 @@
   }
 
   .stars-form {
-    display: flex;
+    display: inline-flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
     gap: 0.35rem;
     margin-bottom: 1rem;
   }
@@ -77,6 +79,7 @@
   }
 
   .star-btn:hover,
+  .star-btn:hover ~ .star-btn,
   .star-btn.active {
     color: #f5c518;
   }
@@ -214,7 +217,7 @@
         <form method="post" action="{% url 'rate_game' game.pk %}" style="margin-top:1.3rem;">
           {% csrf_token %}
           <div class="stars-form">
-            {% for i in star_range %}
+            {% for i in star_range_reversed %}
               <button type="submit" name="score" value="{{ i }}" class="star-btn {% if user_rating and user_rating.score >= i %}active{% endif %}">★</button>
             {% endfor %}
           </div>

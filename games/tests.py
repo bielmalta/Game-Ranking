@@ -159,6 +159,19 @@ class GamePagesTests(TestCase):
         self.assertContains(response, 'https://www.youtube.com/embed/pBM2xyco_Kg')
         self.assertNotContains(response, 'https://www.youtube.com/watch?v=pBM2xyco_Kg')
 
+    def test_rating_stars_render_reversed_for_hover_fill(self):
+        user = User.objects.create_user(username='arthur', password='SenhaForte123')
+        game = Game.objects.create(title='Hover Stars Game')
+        self.client.force_login(user)
+
+        response = self.client.get(reverse('game_detail', args=[game.pk]))
+        content = response.content.decode()
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(list(response.context['star_range_reversed']), [5, 4, 3, 2, 1])
+        self.assertContains(response, '.star-btn:hover ~ .star-btn')
+        self.assertLess(content.index('value="5"'), content.index('value="1"'))
+
     def test_genre_page_lists_only_games_from_selected_genre(self):
         action = Genre.objects.create(name='Ação')
         puzzle = Genre.objects.create(name='Puzzle')
