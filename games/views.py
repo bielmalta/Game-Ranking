@@ -103,6 +103,7 @@ def game_detail(request, pk):
         'user_comment': user_comment,
         'is_played': is_played,
         'star_range': range(1, 6),
+        'star_range_reversed': range(5, 0, -1),
     })
 
 
