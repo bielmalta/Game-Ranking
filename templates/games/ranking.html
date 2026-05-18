@@ -4,85 +4,144 @@
 {% block extra_css %}
 <style>
   .ranking-page {
-    max-width: 1180px;
+    max-width: 1160px;
     margin: 0 auto;
-    padding: 2.25rem 2rem 3rem;
+    padding: 1.35rem 2rem 3rem;
   }
 
   .ranking-header {
-    margin-bottom: 1.6rem;
+    margin-bottom: 1.35rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--line-soft);
   }
 
   .ranking-title {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: 2rem;
+    line-height: 1.1;
     color: #f5f8ff;
-    margin-bottom: 0.5rem;
+    margin-bottom: 0.35rem;
   }
 
   .ranking-copy {
-    color: #9aa8cf;
-    line-height: 1.7;
+    color: var(--muted);
+    line-height: 1.55;
     max-width: 68ch;
   }
 
   .ranking-list {
     display: grid;
-    gap: 0.9rem;
+    gap: 0;
+    border-top: 1px solid var(--line-soft);
   }
 
   .ranking-row {
     display: grid;
-    grid-template-columns: 72px 1.4fr 0.9fr 0.8fr 0.8fr;
+    grid-template-columns: 52px 54px minmax(0, 1.4fr) 0.9fr 0.8fr 0.8fr;
     gap: 1rem;
     align-items: center;
-    padding: 1rem 1.1rem;
-    background: linear-gradient(180deg, #171c28 0%, #101520 100%);
-    border: 1px solid #2d354a;
-    border-radius: 16px;
+    padding: 0.9rem 0;
+    background: transparent;
+    border-bottom: 1px solid var(--line-soft);
+    transition: border-color 0.18s ease, transform 0.18s ease;
+  }
+
+  .ranking-row:hover {
+    border-color: rgba(22, 199, 243, 0.42);
+    transform: translateY(-1px);
   }
 
   .ranking-position {
-    width: 3rem;
-    height: 3rem;
+    width: 2.2rem;
+    height: 2.2rem;
     display: grid;
     place-items: center;
-    border-radius: 999px;
-    background: rgba(241, 199, 91, 0.12);
-    border: 1px solid rgba(241, 199, 91, 0.35);
-    color: #f6d982;
+    border-radius: var(--radius);
+    background: rgba(255, 209, 61, 0.1);
+    border: 1px solid rgba(255, 209, 61, 0.25);
+    color: var(--accent-warm);
     font-weight: 800;
+    font-size: 0.88rem;
+  }
+
+  .ranking-cover {
+    width: 54px;
+    aspect-ratio: 3 / 4;
+    border-radius: var(--radius);
+    overflow: hidden;
+    background: #0d121d;
+    border: 1px solid var(--line-soft);
+  }
+
+  .ranking-cover img,
+  .ranking-cover-placeholder {
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .ranking-cover-placeholder {
+    display: grid;
+    place-items: center;
+    color: #5f6b8b;
+    font-size: 0.62rem;
+    font-weight: 700;
+    line-height: 1.1;
+    text-align: center;
+    padding: 0.25rem;
   }
 
   .ranking-name {
-    font-size: 1.05rem;
+    font-size: 1rem;
     font-weight: 700;
     color: #f5f8ff;
+    overflow-wrap: anywhere;
   }
 
   .ranking-subtext {
-    color: #9aa8cf;
-    margin-top: 0.35rem;
-    line-height: 1.55;
-    font-size: 0.88rem;
+    color: var(--muted);
+    margin-top: 0.22rem;
+    line-height: 1.4;
+    font-size: 0.8rem;
   }
 
   .ranking-col {
     color: #cfd8f5;
-    font-size: 0.92rem;
+    font-size: 0.86rem;
   }
 
   .ranking-label {
     display: block;
-    color: #8090bd;
-    font-size: 0.75rem;
+    color: var(--muted);
+    font-size: 0.68rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
     margin-bottom: 0.2rem;
   }
 
   @media (max-width: 900px) {
     .ranking-row {
-      grid-template-columns: 60px 1fr;
+      grid-template-columns: 44px 48px minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .ranking-col {
+      grid-column: 3;
+    }
+
+    .ranking-cover {
+      width: 48px;
+    }
+  }
+
+  @media (max-width: 720px) {
+    .ranking-page {
+      padding: 1rem 1.25rem 2.5rem;
+    }
+
+    .ranking-title {
+      font-size: 1.75rem;
     }
   }
 </style>
@@ -108,6 +167,13 @@
       {% for game in ranking_games %}
         <a href="{% url 'game_detail' game.pk %}" class="ranking-row">
           <div class="ranking-position">#{{ forloop.counter }}</div>
+          <div class="ranking-cover">
+            {% if game.cover_source %}
+              <img src="{{ game.cover_source }}" alt="{{ game.title }}">
+            {% else %}
+              <div class="ranking-cover-placeholder">Sem capa</div>
+            {% endif %}
+          </div>
           <div>
             <div class="ranking-name">{{ game.title }}</div>
             <div class="ranking-subtext">
