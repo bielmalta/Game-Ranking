@@ -43,7 +43,7 @@
     }
 
     body::selection {
-      background: rgba(104, 216, 255, 0.28);
+      background: rgba(77, 184, 255, 0.28);
       color: #fff;
     }
 
@@ -53,10 +53,10 @@
       transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
     }
 
-    a:hover { color: #a6e9ff; }
+    a:hover { color: #80ccff; }
 
     .site-nav {
-      background: rgba(7, 10, 16, 0.94);
+      background: rgba(0, 0, 0, 0.94);
       backdrop-filter: blur(10px);
       border-bottom: 1px solid var(--line-soft);
       position: sticky;
@@ -96,7 +96,7 @@
       align-items: center;
       gap: 0.5rem;
       min-width: max-content;
-      color: #eef6ff;
+      color: var(--text);
       font-weight: 800;
     }
 
@@ -109,7 +109,7 @@
     }
 
     .nav-brand-text {
-      color: #f5f8ff;
+      color: var(--text);
       font-size: 0.96rem;
       line-height: 1;
     }
@@ -194,7 +194,7 @@
 
     .search-bar input:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(109, 194, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.12);
     }
 
     .container {
@@ -212,7 +212,7 @@
     .page-title {
       font-size: 2rem;
       line-height: 1.1;
-      color: #f5f8ff;
+      color: var(--text);
       margin-bottom: 0.35rem;
     }
 
@@ -232,7 +232,7 @@
 
     .section-title {
       font-size: 0.9rem;
-      color: #f5f8ff;
+      color: var(--text);
       margin-bottom: 0.8rem;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -261,7 +261,7 @@
     }
 
     .list-row:hover {
-      border-color: rgba(22, 199, 243, 0.35);
+      border-color: rgba(77, 184, 255, 0.35);
       transform: translateY(-1px);
     }
 
@@ -287,7 +287,7 @@
       aspect-ratio: 3 / 4;
       border-radius: var(--radius);
       overflow: hidden;
-      background: #0d121d;
+      background: var(--bg-soft);
       border: 1px solid var(--line-soft);
     }
 
@@ -303,7 +303,7 @@
     .list-cover-placeholder {
       display: grid;
       place-items: center;
-      color: #5f6b8b;
+      color: #64748b;
       font-size: 0.58rem;
       font-weight: 700;
       line-height: 1.1;
@@ -317,14 +317,14 @@
 
     .list-title {
       display: block;
-      color: #e8f0ff;
+      color: var(--text);
       font-weight: 700;
       overflow-wrap: anywhere;
     }
 
     .list-body {
       display: block;
-      color: #cad3ef;
+      color: var(--text);
       line-height: 1.65;
       margin-top: 0.4rem;
     }
@@ -347,10 +347,10 @@
     .cover-placeholder {
       display: grid;
       place-items: center;
-      background: #0d121d;
+      background: var(--bg-soft);
       border: 1px solid var(--line-soft);
       border-radius: var(--radius);
-      color: #5f6b8b;
+      color: #64748b;
       font-weight: 700;
     }
 
@@ -385,7 +385,7 @@
       aspect-ratio: 3 / 4;
       object-fit: cover;
       object-position: center;
-      background: #0d121d;
+      background: var(--bg-soft);
       display: block;
       border: 1px solid var(--line-soft);
       border-radius: var(--radius);
@@ -394,8 +394,8 @@
     }
 
     .game-card:hover img {
-      border-color: rgba(22, 199, 243, 0.64);
-      box-shadow: 0 0 0 2px rgba(22, 199, 243, 0.12);
+      border-color: rgba(77, 184, 255, 0.64);
+      box-shadow: 0 0 0 2px rgba(77, 184, 255, 0.12);
     }
 
     .game-card-body {
@@ -405,7 +405,7 @@
     .game-card-title {
       font-weight: 700;
       font-size: 0.9rem;
-      color: #f4f7ff;
+      color: var(--text);
     }
 
     .game-card-meta {
@@ -433,9 +433,9 @@
     }
 
     .messages li {
-      background: rgba(22, 199, 243, 0.1);
-      border: 1px solid rgba(22, 199, 243, 0.2);
-      color: #cae8ff;
+      background: rgba(77, 184, 255, 0.1);
+      border: 1px solid rgba(77, 184, 255, 0.2);
+      color: var(--accent);
       padding: 0.8rem 1rem;
       border-radius: var(--radius);
       margin-bottom: 0.6rem;
@@ -464,7 +464,7 @@
     .auth-field select:focus,
     .auth-field textarea:focus {
       border-color: var(--accent);
-      box-shadow: 0 0 0 3px rgba(104, 216, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(77, 184, 255, 0.12);
     }
 
     @media (max-width: 720px) {
