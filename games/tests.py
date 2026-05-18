@@ -15,17 +15,17 @@ class SiteAssetTests(TestCase):
         response = self.client.get(reverse('home'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, static('games/img/game-ranking-logo.png'))
+        self.assertContains(response, static('games/img/game-ranking-icon.png'))
         self.assertContains(response, static('games/img/favicon.ico'))
         self.assertContains(response, static('games/img/favicon-32.png'))
         self.assertContains(response, static('games/img/favicon-96.png'))
 
-    def test_homepage_centers_larger_logo_and_preserves_card_covers(self):
+    def test_homepage_uses_compact_nav_logo_and_preserves_card_covers(self):
         response = self.client.get(reverse('home'))
 
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'grid-template-columns: 1fr auto 1fr')
-        self.assertContains(response, 'height: 64px')
+        self.assertContains(response, 'grid-template-columns: auto 1fr auto')
+        self.assertContains(response, 'height: 30px')
         self.assertContains(response, 'object-fit: contain')
 
     def test_favicon_route_redirects_to_static_icon(self):
