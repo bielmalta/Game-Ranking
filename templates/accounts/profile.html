@@ -3,20 +3,29 @@
 
 {% block content %}
 <section class="container">
-  <div style="margin-bottom:1.8rem;">
-    <h1 style="font-size:2rem;color:#f5f8ff;margin-bottom:0.35rem;">Seu perfil</h1>
-    <p style="color:#9aa8cf;line-height:1.7;">Acompanhe suas avaliações, comentários e jogos jogados em um só lugar.</p>
+  <div class="page-header">
+    <h1 class="page-title">Seu perfil</h1>
+    <p class="page-copy">Acompanhe avaliações, comentários e jogos jogados.</p>
   </div>
 
-  <section style="display:grid;gap:1.5rem;">
-    <div style="background:linear-gradient(180deg,#171c28 0%,#101520 100%);border:1px solid #2d354a;border-radius:18px;padding:1.4rem;" data-testid="played-section">
-      <h2 style="font-size:1.15rem;color:#f5f8ff;margin-bottom:1rem;">Jogos jogados</h2>
+  <section class="stack">
+    <div class="surface" data-testid="played-section">
+      <h2 class="section-title">Jogos jogados</h2>
       {% if played %}
-        <div style="display:grid;gap:0.9rem;">
+        <div class="item-list">
           {% for entry in played %}
-            <a href="{% url 'game_detail' entry.game.pk %}" style="display:flex;justify-content:space-between;gap:1rem;padding:0.9rem 1rem;border:1px solid #283046;border-radius:14px;background:rgba(11,16,24,0.35);">
-              <span style="color:#e8f0ff;font-weight:700;">{{ entry.game.title }}</span>
-              <span style="color:#92a0c8;font-size:0.85rem;">{{ entry.played_at|date:"d/m/Y" }}</span>
+            <a href="{% url 'game_detail' entry.game.pk %}" class="list-row list-row-with-cover">
+              <span class="list-cover">
+                {% if entry.game.cover_source %}
+                  <img src="{{ entry.game.cover_source }}" alt="{{ entry.game.title }}">
+                {% else %}
+                  <span class="list-cover-placeholder">Sem capa</span>
+                {% endif %}
+              </span>
+              <span class="list-content">
+                <span class="list-title">{{ entry.game.title }}</span>
+              </span>
+              <span class="list-meta">{{ entry.played_at|date:"d/m/Y" }}</span>
             </a>
           {% endfor %}
         </div>
@@ -24,14 +33,23 @@
         <div class="empty-msg">Você ainda não marcou nenhum jogo como jogado.</div>
       {% endif %}
     </div>
-    <div style="background:linear-gradient(180deg,#171c28 0%,#101520 100%);border:1px solid #2d354a;border-radius:18px;padding:1.4rem;">
-      <h2 style="font-size:1.15rem;color:#f5f8ff;margin-bottom:1rem;">Suas avaliações</h2>
+    <div class="surface">
+      <h2 class="section-title">Suas avaliações</h2>
       {% if ratings %}
-        <div style="display:grid;gap:0.9rem;">
+        <div class="item-list">
           {% for rating in ratings %}
-            <a href="{% url 'game_detail' rating.game.pk %}" style="display:flex;justify-content:space-between;gap:1rem;padding:0.9rem 1rem;border:1px solid #283046;border-radius:14px;background:rgba(11,16,24,0.35);">
-              <span style="color:#e8f0ff;font-weight:700;">{{ rating.game.title }}</span>
-              <span style="color:#f3d27a;">{{ rating.score }} estrela(s)</span>
+            <a href="{% url 'game_detail' rating.game.pk %}" class="list-row list-row-with-cover">
+              <span class="list-cover">
+                {% if rating.game.cover_source %}
+                  <img src="{{ rating.game.cover_source }}" alt="{{ rating.game.title }}">
+                {% else %}
+                  <span class="list-cover-placeholder">Sem capa</span>
+                {% endif %}
+              </span>
+              <span class="list-content">
+                <span class="list-title">{{ rating.game.title }}</span>
+              </span>
+              <span class="list-meta list-meta-warm">{{ rating.score }} estrela(s)</span>
             </a>
           {% endfor %}
         </div>
@@ -40,15 +58,24 @@
       {% endif %}
     </div>
 
-    <div style="background:linear-gradient(180deg,#171c28 0%,#101520 100%);border:1px solid #2d354a;border-radius:18px;padding:1.4rem;">
-      <h2 style="font-size:1.15rem;color:#f5f8ff;margin-bottom:1rem;">Seus comentários</h2>
+    <div class="surface">
+      <h2 class="section-title">Seus comentários</h2>
       {% if comments %}
-        <div style="display:grid;gap:0.9rem;">
+        <div class="item-list">
           {% for comment in comments %}
-            <a href="{% url 'game_detail' comment.game.pk %}" style="display:block;padding:1rem;border:1px solid #283046;border-radius:14px;background:rgba(11,16,24,0.35);">
-              <div style="color:#e8f0ff;font-weight:700;margin-bottom:0.4rem;">{{ comment.game.title }}</div>
-              <div style="color:#cad3ef;line-height:1.7;">{{ comment.body }}</div>
-              <div style="margin-top:0.45rem;color:#92a0c8;font-size:0.82rem;">{{ comment.updated_at|date:"d/m/Y H:i" }}</div>
+            <a href="{% url 'game_detail' comment.game.pk %}" class="list-row list-row-block list-row-with-cover">
+              <span class="list-cover">
+                {% if comment.game.cover_source %}
+                  <img src="{{ comment.game.cover_source }}" alt="{{ comment.game.title }}">
+                {% else %}
+                  <span class="list-cover-placeholder">Sem capa</span>
+                {% endif %}
+              </span>
+              <span class="list-content">
+                <span class="list-title">{{ comment.game.title }}</span>
+                <span class="list-body">{{ comment.body }}</span>
+                <span class="list-meta list-meta-spaced">{{ comment.updated_at|date:"d/m/Y H:i" }}</span>
+              </span>
             </a>
           {% endfor %}
         </div>
