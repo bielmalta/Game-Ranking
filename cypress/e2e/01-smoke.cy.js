@@ -2,11 +2,12 @@ describe('Smoke: páginas principais carregam', () => {
   it('home / mostra navbar e seções', () => {
     cy.visit('/');
     cy.get('a.nav-brand[aria-label="Game Ranking"]').should('be.visible');
-    cy.get('a.nav-brand img.nav-logo[alt="Game Ranking"]').should('be.visible');
+    cy.get('a.nav-brand img.nav-logo').should('be.visible');
+    cy.contains('.nav-brand-text', 'Game Ranking').should('be.visible');
     cy.contains('.nav-link', 'Início').should('be.visible');
     cy.contains('.nav-link', 'Buscar').should('be.visible');
     cy.contains('.nav-link', 'Top 20').should('be.visible');
-    cy.contains('h1', 'Descubra').should('be.visible');
+    cy.contains('h1', 'Encontre jogos').should('be.visible');
   });
 
   it('/buscar/ exibe a barra de busca', () => {
