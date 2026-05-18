@@ -13,87 +13,125 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #0f1117;
-      --bg-soft: #151925;
-      --panel: #181d2a;
-      --line: #2d354a;
-      --text: #dbe3ff;
-      --muted: #93a0c7;
-      --accent: #6dc2ff;
-      --accent-strong: #4097d9;
+      --bg: #070a10;
+      --bg-soft: #0d121a;
+      --panel: #101722;
+      --panel-soft: #151d2a;
+      --line: #202b3b;
+      --line-soft: rgba(255, 255, 255, 0.075);
+      --text: #f0f4fb;
+      --muted: #8f9aad;
+      --accent: #16c7f3;
+      --accent-strong: #287cff;
+      --accent-purple: #7d35f2;
+      --accent-warm: #ffd13d;
+      --success: #42d991;
+      --shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+      --radius: 6px;
+    }
+
+    html {
+      scroll-behavior: smooth;
     }
 
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background:
-        radial-gradient(circle at top, rgba(109, 194, 255, 0.12), transparent 30%),
-        linear-gradient(180deg, #0b0f16 0%, var(--bg) 100%);
+      font-family: "Inter", "Segoe UI", system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
       color: var(--text);
       min-height: 100vh;
+      line-height: 1.5;
     }
 
-    a { color: var(--accent); text-decoration: none; }
-    a:hover { color: #9fd8ff; }
+    body::selection {
+      background: rgba(104, 216, 255, 0.28);
+      color: #fff;
+    }
 
-    nav {
-      background: rgba(15, 17, 23, 0.92);
+    a {
+      color: var(--accent);
+      text-decoration: none;
+      transition: color 0.18s ease, background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+    }
+
+    a:hover { color: #a6e9ff; }
+
+    .site-nav {
+      background: rgba(7, 10, 16, 0.94);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid var(--line);
-      padding: 0 2rem;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items: center;
-      gap: 1.5rem;
-      height: 88px;
+      border-bottom: 1px solid var(--line-soft);
       position: sticky;
       top: 0;
       z-index: 100;
+    }
+
+    .nav-shell {
+      max-width: 1160px;
+      min-height: 58px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      align-items: center;
+      gap: 1.25rem;
     }
 
     .nav-left,
     .nav-links {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.2rem;
     }
 
     .nav-left {
-      justify-self: start;
+      justify-content: flex-start;
     }
 
     .nav-links {
-      justify-self: end;
+      justify-content: flex-end;
+      gap: 0.45rem;
     }
 
     .nav-brand {
       display: inline-flex;
       align-items: center;
-      justify-content: center;
-      flex: 0 0 auto;
+      gap: 0.5rem;
+      min-width: max-content;
       color: #eef6ff;
-      justify-self: center;
+      font-weight: 800;
     }
 
     .nav-logo {
       display: block;
       width: auto;
-      height: 64px;
-      max-width: 320px;
+      height: 30px;
+      max-width: 30px;
       object-fit: contain;
+    }
+
+    .nav-brand-text {
+      color: #f5f8ff;
+      font-size: 0.96rem;
+      line-height: 1;
     }
 
     .nav-link {
       color: var(--muted);
-      font-size: 0.92rem;
+      font-size: 0.82rem;
+      font-weight: 750;
+      letter-spacing: 0.02em;
+      padding: 0.38rem 0.58rem;
+      border-radius: var(--radius);
     }
 
     .nav-link:hover {
+      background: rgba(255, 255, 255, 0.06);
       color: var(--text);
     }
 
     .nav-user {
       color: var(--muted);
-      font-size: 0.88rem;
+      font-size: 0.82rem;
+      white-space: nowrap;
     }
 
     .btn {
@@ -101,13 +139,15 @@
       align-items: center;
       justify-content: center;
       gap: 0.45rem;
-      padding: 0.55rem 1rem;
-      border-radius: 999px;
-      font-size: 0.88rem;
+      min-height: 34px;
+      padding: 0.45rem 0.78rem;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
       font-weight: 700;
-      border: none;
+      border: 1px solid transparent;
       cursor: pointer;
-      transition: transform 0.18s, background 0.18s, border-color 0.18s;
+      box-shadow: none;
+      transition: transform 0.18s ease, background 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease;
     }
 
     .btn:hover {
@@ -115,8 +155,9 @@
     }
 
     .btn-primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent-strong));
-      color: #08111b;
+      background: var(--accent);
+      color: #041018;
+      box-shadow: none;
     }
 
     .btn-primary:hover {
@@ -125,7 +166,7 @@
 
     .btn-ghost {
       background: transparent;
-      border: 1px solid var(--line);
+      border-color: var(--line);
       color: var(--muted);
     }
 
@@ -143,9 +184,9 @@
     .search-bar input {
       flex: 1;
       padding: 0.9rem 1rem;
-      border-radius: 12px;
+      border-radius: var(--radius);
       border: 1px solid var(--line);
-      background: #151a26;
+      background: var(--bg-soft);
       color: var(--text);
       font-size: 1rem;
       outline: none;
@@ -157,65 +198,231 @@
     }
 
     .container {
-      max-width: 1180px;
+      max-width: 1160px;
       margin: 0 auto;
       padding: 2rem;
     }
 
+    .page-header {
+      margin-bottom: 1.35rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .page-title {
+      font-size: 2rem;
+      line-height: 1.1;
+      color: #f5f8ff;
+      margin-bottom: 0.35rem;
+    }
+
+    .page-copy {
+      color: var(--muted);
+      line-height: 1.55;
+      max-width: 70ch;
+    }
+
+    .surface {
+      background: var(--panel);
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      padding: 1.25rem;
+      box-shadow: none;
+    }
+
+    .section-title {
+      font-size: 0.9rem;
+      color: #f5f8ff;
+      margin-bottom: 0.8rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .stack {
+      display: grid;
+      gap: 1.25rem;
+    }
+
+    .item-list {
+      display: grid;
+      gap: 0;
+      border-top: 1px solid var(--line-soft);
+    }
+
+    .list-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 0.82rem 0;
+      border-bottom: 1px solid var(--line-soft);
+      background: transparent;
+      color: var(--text);
+    }
+
+    .list-row:hover {
+      border-color: rgba(22, 199, 243, 0.35);
+      transform: translateY(-1px);
+    }
+
+    .list-row-block {
+      display: block;
+    }
+
+    .list-row-with-cover {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr) auto;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .list-row-with-cover.list-row-block {
+      display: grid;
+      grid-template-columns: 52px minmax(0, 1fr);
+      align-items: start;
+    }
+
+    .list-cover {
+      width: 52px;
+      aspect-ratio: 3 / 4;
+      border-radius: var(--radius);
+      overflow: hidden;
+      background: #0d121d;
+      border: 1px solid var(--line-soft);
+    }
+
+    .list-cover img,
+    .list-cover-placeholder {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      display: block;
+    }
+
+    .list-cover-placeholder {
+      display: grid;
+      place-items: center;
+      color: #5f6b8b;
+      font-size: 0.58rem;
+      font-weight: 700;
+      line-height: 1.1;
+      text-align: center;
+      padding: 0.2rem;
+    }
+
+    .list-content {
+      min-width: 0;
+    }
+
+    .list-title {
+      display: block;
+      color: #e8f0ff;
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .list-body {
+      display: block;
+      color: #cad3ef;
+      line-height: 1.65;
+      margin-top: 0.4rem;
+    }
+
+    .list-meta {
+      color: var(--muted);
+      font-size: 0.85rem;
+      white-space: nowrap;
+    }
+
+    .list-meta-warm {
+      color: var(--accent-warm);
+    }
+
+    .list-meta-spaced {
+      margin-top: 0.45rem;
+      white-space: normal;
+    }
+
+    .cover-placeholder {
+      display: grid;
+      place-items: center;
+      background: #0d121d;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      color: #5f6b8b;
+      font-weight: 700;
+    }
+
+    .cover-placeholder-portrait {
+      aspect-ratio: 3 / 4;
+    }
+
     .games-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
-      gap: 1.2rem;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 1.15rem;
     }
 
     .game-card {
       display: block;
-      background: linear-gradient(180deg, var(--panel) 0%, #121722 100%);
-      border: 1px solid var(--line);
-      border-radius: 16px;
+      height: 100%;
+      background: transparent;
+      border: 0;
+      border-radius: 0;
       overflow: hidden;
-      transition: border-color 0.2s, transform 0.2s;
+      box-shadow: none;
+      transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
     }
 
     .game-card:hover {
-      border-color: var(--accent);
       transform: translateY(-3px);
+      box-shadow: none;
     }
 
     .game-card img {
       width: 100%;
       aspect-ratio: 3 / 4;
-      object-fit: contain;
+      object-fit: cover;
       object-position: center;
-      background: #0f1420;
+      background: #0d121d;
       display: block;
+      border: 1px solid var(--line-soft);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 18px rgba(0, 0, 0, 0.22);
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .game-card:hover img {
+      border-color: rgba(22, 199, 243, 0.64);
+      box-shadow: 0 0 0 2px rgba(22, 199, 243, 0.12);
     }
 
     .game-card-body {
-      padding: 0.95rem;
+      padding: 0.58rem 0 0;
     }
 
     .game-card-title {
       font-weight: 700;
-      font-size: 0.98rem;
+      font-size: 0.9rem;
       color: #f4f7ff;
     }
 
     .game-card-meta {
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       color: var(--muted);
-      margin-top: 0.35rem;
-      line-height: 1.5;
+      margin-top: 0.22rem;
+      line-height: 1.4;
     }
 
     .empty-msg {
       text-align: center;
-      padding: 3rem 1rem;
+      padding: 1.7rem 1rem;
       color: var(--muted);
       font-size: 1rem;
-      background: rgba(24, 29, 42, 0.75);
-      border: 1px dashed var(--line);
-      border-radius: 16px;
+      background: var(--panel);
+      border: 1px dashed rgba(255, 255, 255, 0.14);
+      border-radius: var(--radius);
     }
 
     .messages {
@@ -226,42 +433,102 @@
     }
 
     .messages li {
-      background: rgba(39, 85, 122, 0.22);
-      border: 1px solid rgba(109, 194, 255, 0.22);
+      background: rgba(22, 199, 243, 0.1);
+      border: 1px solid rgba(22, 199, 243, 0.2);
       color: #cae8ff;
       padding: 0.8rem 1rem;
-      border-radius: 12px;
+      border-radius: var(--radius);
       margin-bottom: 0.6rem;
       font-size: 0.92rem;
     }
 
+    input:not([type="hidden"]),
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    .auth-field input,
+    .auth-field select,
+    .auth-field textarea {
+      width: 100%;
+      padding: 0.82rem 0.9rem;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: var(--bg-soft);
+      color: var(--text);
+      outline: none;
+    }
+
+    .auth-field input:focus,
+    .auth-field select:focus,
+    .auth-field textarea:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px rgba(104, 216, 255, 0.12);
+    }
+
     @media (max-width: 720px) {
-      nav {
-        height: auto;
-        padding: 1rem;
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.8rem;
-        display: flex;
+      .nav-shell {
+        grid-template-columns: auto auto;
+        justify-content: space-between;
+        justify-items: stretch;
+        min-height: auto;
+        padding: 0.55rem 1rem;
+        gap: 0.5rem 1rem;
+      }
+
+      .nav-brand {
+        grid-column: 1;
+        grid-row: 1;
+      }
+
+      .nav-left {
+        grid-column: 1 / -1;
+        grid-row: 2;
+        justify-content: center;
+      }
+
+      .nav-links {
+        grid-column: 2;
+        grid-row: 1;
+        justify-content: flex-end;
       }
 
       .nav-left,
       .nav-links {
         flex-wrap: wrap;
-        justify-content: center;
       }
 
-      .nav-brand {
-        order: -1;
+      .nav-link {
+        padding: 0.28rem 0.5rem;
       }
 
       .nav-logo {
-        height: 58px;
-        max-width: min(260px, 86vw);
+        height: 30px;
+        max-width: 30px;
       }
 
       .container {
         padding: 1.25rem;
+      }
+
+      .list-row-with-cover {
+        grid-template-columns: 46px minmax(0, 1fr);
+        gap: 0.75rem;
+      }
+
+      .list-row-with-cover > .list-meta {
+        grid-column: 2;
+        justify-self: start;
+        white-space: normal;
+      }
+
+      .list-cover {
+        width: 46px;
+      }
+
+      .search-bar {
+        flex-direction: column;
       }
     }
   </style>
@@ -269,24 +536,27 @@
 </head>
 <body>
 
-<nav>
-  <div class="nav-left">
-    <a class="nav-link" href="{% url 'home' %}">Início</a>
-    <a class="nav-link" href="{% url 'game_search' %}">Buscar</a>
-    <a class="nav-link" href="{% url 'monthly_ranking' %}">Top 20</a>
-  </div>
-  <a class="nav-brand" href="{% url 'home' %}" aria-label="Game Ranking">
-    <img class="nav-logo" src="{% static 'games/img/game-ranking-logo.png' %}" alt="Game Ranking">
-  </a>
-  <div class="nav-links">
-    {% if user.is_authenticated %}
-      <span class="nav-user">Olá, <strong>{{ user.username }}</strong></span>
-      <a class="nav-link" href="{% url 'profile' %}">Perfil</a>
-      <a href="{% url 'logout' %}" class="btn btn-ghost">Sair</a>
-    {% else %}
-      <a class="nav-link" href="{% url 'login' %}">Entrar</a>
-      <a href="{% url 'register' %}" class="btn btn-primary">Cadastrar</a>
-    {% endif %}
+<nav class="site-nav">
+  <div class="nav-shell">
+    <a class="nav-brand" href="{% url 'home' %}" aria-label="Game Ranking">
+      <img class="nav-logo" src="{% static 'games/img/game-ranking-icon.png' %}" alt="">
+      <span class="nav-brand-text">Game Ranking</span>
+    </a>
+    <div class="nav-left" aria-label="Navegação principal">
+      <a class="nav-link" href="{% url 'home' %}">Início</a>
+      <a class="nav-link" href="{% url 'game_search' %}">Buscar</a>
+      <a class="nav-link" href="{% url 'monthly_ranking' %}">Top 20</a>
+    </div>
+    <div class="nav-links">
+      {% if user.is_authenticated %}
+        <span class="nav-user">Olá, <strong>{{ user.username }}</strong></span>
+        <a class="nav-link" href="{% url 'profile' %}">Perfil</a>
+        <a href="{% url 'logout' %}" class="btn btn-ghost">Sair</a>
+      {% else %}
+        <a class="nav-link" href="{% url 'login' %}">Entrar</a>
+        <a href="{% url 'register' %}" class="btn btn-primary">Cadastrar</a>
+      {% endif %}
+    </div>
   </div>
 </nav>
 
